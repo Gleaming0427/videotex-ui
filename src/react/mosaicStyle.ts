@@ -9,8 +9,8 @@ const cache = new Map<number, CSSProperties>();
 /**
  * Draws the lit sixels of a mosaic cell as background layers in `currentColor`.
  * With an integer scale every layer lands on whole pixels, so mosaics stay sharp.
- * Disjoint mosaics show 2 vertical and 3 horizontal bars of background (STUM 1B, part 1, ch. 3,
- * §2.3.2): here each sixel loses one dot on the right and at the bottom (bar width: our choice).
+ * Disjoint mosaics show 2 vertical and 3 horizontal bars of background: as drawn in the STUM 1B
+ * (part 1, ch. 3, §2.3.2), each sixel loses one dot on the left and one at the bottom.
  */
 export function mosaicStyle(mask: SixelMask, disjoint: boolean): CSSProperties | undefined {
   if (mask === 0) return undefined;
@@ -27,7 +27,7 @@ export function mosaicStyle(mask: SixelMask, disjoint: boolean): CSSProperties |
     const row = bit >> 1;
     const w = (SIXEL_WIDTH - gap) / CELL_WIDTH;
     const h = (SIXEL_ROW_HEIGHTS[row as 0 | 1 | 2] - gap) / CELL_HEIGHT;
-    const x = (col * SIXEL_WIDTH) / CELL_WIDTH;
+    const x = (col * SIXEL_WIDTH + gap) / CELL_WIDTH;
     const y = ROW_OFFSETS[row]! / CELL_HEIGHT;
     sizes.push(`${pct(w)} ${pct(h)}`);
     // A background-position percentage aligns that point of the layer with the same point of the box.

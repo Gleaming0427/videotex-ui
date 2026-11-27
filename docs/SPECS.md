@@ -4,7 +4,7 @@ Every technical value used by the core (`src/core`) and the components, with its
 
 ## Sources
 
-- **[STUM]** *Spécifications techniques d'utilisation du Minitel 1B*, Direction générale des Télécommunications, approved on 21 November 1986. Copy on the Internet Archive: [item page](https://archive.org/details/specifications-techniques-utilisation-minitel-1b), [OCR text](https://archive.org/stream/minitel-stum1b/minitel-stum1b_djvu.txt). References below are "part, chapter, section" of that document. Tables and figures that are images (G1 table, keyboard photos) cannot be read in the OCR text.
+- **[STUM]** *Spécifications techniques d'utilisation du Minitel 1B*, Direction générale des Télécommunications, approved on 21 November 1986. Copy on the Internet Archive: [item page](https://archive.org/details/specifications-techniques-utilisation-minitel-1b), [OCR text](https://archive.org/stream/minitel-stum1b/minitel-stum1b_djvu.txt). References below are "part, chapter, section" of that document. Tables and figures are images: they were read on the scanned PDF of the same item ("…Minitel 1B_text.pdf", 4.4 MB), which is not kept in this repository.
 - **[STUM web]** [STUM1B online transcription](https://jbellue.github.io/stum1b/) by jbellue. Derived from the STUM, used to cross-read it, not as an independent source.
 - **[Wikipédia]** [« Minitel »](https://fr.wikipedia.org/wiki/Minitel), French Wikipedia.
 - **[Minitel1B_Hard]** [eserandour/Minitel1B_Hard](https://github.com/eserandour/Minitel1B_Hard), an Arduino library that drives real Minitel 1B terminals (`graphic()` function).
@@ -27,11 +27,11 @@ Status: **verified** = stated in the STUM (plus another source when there is one
 | Topic | Value in the code | Where | Source | Status |
 | --- | --- | --- | --- | --- |
 | Cell division | 6 blocks, 2 columns × 3 rows | `mosaic.ts` | STUM 1-3 §2.3.2 (6 blocks; 2 × 3 follows from the disjoint bars); Wikipédia (2 × 3) | Verified |
-| Block heights | 3, 4 and 3 dots | `mosaic.ts` | Not in the STUM text | Our choice |
+| Block heights | 3, 4 and 3 dots | `mosaic.ts` | STUM 1-3 §2.3.2: no figures in the text, but the drawing of a mosaic has rows in a 3 : 4 : 3 ratio | Verified on the drawing |
 | Switching sets | SO selects G1 for the codes of columns 2 to 7, SI returns to G0 | (step 14) | STUM 2-2 §1.2.3.3 | Verified |
-| Bit of each block | Bits 0 to 4 then bit 6, in reading order (top-left first) | `mosaic.ts` | STUM table p. 101 is an image; Minitel1B_Hard `graphic()` uses the same arithmetic | Partly verified: one implementation, block names not stated |
-| Full block | `maskToG1Code(63)` gives 0x7F | `mosaic.ts` | Minitel1B_Hard sends 0x5F instead, as 0x7F is DEL | To settle with the G1 table before step 14 (streams) |
-| Disjoint mode | Selected by the underline (lignage) attribute on mosaic characters; shows 2 vertical and 3 horizontal bars of background | `builder.ts`, `mosaicStyle.ts` | STUM 1-3 §2.3.2; 2-2 §1.2.4.1 | Verified. Bar width of 1 dot: our choice |
+| Bit of each block | Bits 0 to 4 then bit 6, in reading order: 0x21 top left, 0x22 top right, 0x24 middle left, 0x28 middle right, 0x30 bottom left, 0x60 bottom right | `mosaic.ts` | STUM 2-2, schéma 2.6 (G1 table, document page 101); Minitel1B_Hard `graphic()` | Verified |
+| Full block | 0x5F; 0x7F (DEL) is not a mosaic | `mosaic.ts` | STUM 2-2, schéma 2.6; Minitel1B_Hard | Verified (fixed on 2026-11-27: was 0x7F) |
+| Disjoint mode | Selected by the underline (lignage) attribute on mosaic characters; 2 vertical bars of background on the left of each column and 3 horizontal bars at the bottom of each row, about 1 dot wide | `builder.ts`, `mosaicStyle.ts` | STUM 1-3 §2.3.2 (text and drawing); 2-2 §1.2.4.1 | Verified (fixed on 2026-11-27: the vertical bars were on the right) |
 
 ## Colors
 
@@ -68,7 +68,7 @@ Status: **verified** = stated in the STUM (plus another source when there is one
 | Keys | Envoi, Retour, Répétition, Guide, Annulation, Sommaire, Correction, Suite (plus Connexion/Fin, for the modem) | `keys.ts` | STUM 2-3 §6 | Verified |
 | Codes | SEP (0x13) then 0x41 Envoi, 0x42 Retour, 0x43 Répétition, 0x44 Guide, 0x45 Annulation, 0x46 Sommaire, 0x47 Correction, 0x48 Suite | `keys.ts` | STUM 2-3 §6 | Verified |
 | Look | Function keys differ in shape and color; Envoi is green | `videotex.css` | STUM 1-4 §2.4 | Verified (our Send key is green) |
-| Layout | Two columns of four | `keys.ts` | The STUM shows the keyboard in photos only | Our choice, not verified |
+| Layout | Two rows of four: Sommaire, Annulation, Retour, Répétition, then Guide, Correction, Suite, Envoi | `keys.ts` | STUM 1-4, keyboard photos (Matra, RTIC and Telic models) | Partly verified (fixed on 2026-11-27: was two columns): two rows of four on all three models, with Sommaire and Annulation first on the top row and the green Envoi last on the bottom row; the other labels are not legible in the photos |
 | Keyboard shortcuts | Enter for Envoi, Escape for Annulation… | `keys.ts` | — | Our choice |
 
 ## Line
@@ -86,6 +86,4 @@ Status: **verified** = stated in the STUM (plus another source when there is one
 
 ## Still open
 
-- **G1 table** (STUM p. 101, an image): confirm which bit is which block, and whether the full block is 0x7F or 0x5F.
-- **Keyboard layout** (STUM photos): confirm the arrangement of the 8 function keys.
-- **Block heights**: the STUM gives none; 3, 4, 3 could be checked against a photo or an emulator.
+- **Function keys**: the positions of Retour, Répétition, Guide, Correction and Suite in the block are not legible in the STUM photos; a photo of a real Minitel 1B would settle them.

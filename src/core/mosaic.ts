@@ -21,7 +21,8 @@ export const SIXEL_RIGHT: SixelMask = 0b101010;
 export const SIXEL_WIDTH = 4;
 /**
  * Height of the top, middle and bottom sixel rows, in dots, for a 10-dot cell.
- * The STUM 1B splits the cell into 6 blocks but gives no heights: 3, 4, 3 is our choice.
+ * The STUM 1B gives no figures, but its drawing of a mosaic (part 1, ch. 3, §2.3.2) has rows
+ * in a 3 : 4 : 3 ratio.
  */
 export const SIXEL_ROW_HEIGHTS: readonly [number, number, number] = [3, 4, 3];
 
@@ -36,15 +37,25 @@ export function assertSixelMask(value: number): void {
 }
 
 /** Code of the G1 character drawing this mask: 0x20 to 0x3F, then 0x60 to 0x7F. */
+/** Code of the full block: 0x7F is DEL, so the Minitel draws the full block at 0x5F (STUM 1B, schéma 2.6). */
+export const G1_FULL_BLOCK = 0x5f;
+
+/**
+ * Code of the G1 character drawing this mask: 0x20 to 0x3F, 0x60 to 0x7E, and 0x5F for the full block.
+ * Bits 0 to 4 of the code are the first five blocks in reading order, bit 6 the bottom-right block
+ * (STUM 1B, part 2, ch. 2, schéma 2.6).
+ */
 export function maskToG1Code(mask: SixelMask): number {
   assertSixelMask(mask);
+  if (mask === SIXEL_FULL) return G1_FULL_BLOCK;
   return 0x20 | (mask & 0x1f) | ((mask & 0x20) << 1);
 }
 
 export function g1CodeToMask(code: number): SixelMask {
-  const valid = Number.isInteger(code) && ((code >= 0x20 && code <= 0x3f) || (code >= 0x60 && code <= 0x7f));
+  if (code === G1_FULL_BLOCK) return SIXEL_FULL;
+  const valid = Number.isInteger(code) && ((code >= 0x20 && code <= 0x3f) || (code >= 0x60 && code <= 0x7e));
   if (!valid) {
-    throw new RangeError(`Not a G1 mosaic code: ${code}. Expected 0x20 to 0x3F or 0x60 to 0x7F.`);
+    throw new RangeError(`Not a G1 mosaic code: ${code}. Expected 0x20 to 0x3F, 0x5F or 0x60 to 0x7E.`);
   }
   return (code & 0x1f) | ((code & 0x40) >> 1);
 }

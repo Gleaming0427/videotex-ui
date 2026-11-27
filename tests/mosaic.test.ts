@@ -14,11 +14,15 @@ import { mosaicStyle } from '../src/react/mosaicStyle';
 const ALL_MASKS = Array.from({ length: 64 }, (_, i) => i);
 
 describe('G1 codes', () => {
-  it('maps the edges of both ranges', () => {
+  it('follows table 2.6 of the STUM 1B', () => {
     expect(maskToG1Code(0)).toBe(0x20);
+    expect(maskToG1Code(0b000001)).toBe(0x21); // top left
+    expect(maskToG1Code(0b000100)).toBe(0x24); // middle left
+    expect(maskToG1Code(0b010000)).toBe(0x30); // bottom left
     expect(maskToG1Code(0b011111)).toBe(0x3f);
-    expect(maskToG1Code(0b100000)).toBe(0x60);
-    expect(maskToG1Code(SIXEL_FULL)).toBe(0x7f);
+    expect(maskToG1Code(0b100000)).toBe(0x60); // bottom right
+    expect(maskToG1Code(0b111110)).toBe(0x7e);
+    expect(maskToG1Code(SIXEL_FULL)).toBe(0x5f); // 0x7F is DEL
   });
 
   it('round-trips every mask', () => {
@@ -27,6 +31,7 @@ describe('G1 codes', () => {
 
   it('rejects letters and invalid masks', () => {
     expect(() => g1CodeToMask(0x41)).toThrow(RangeError);
+    expect(() => g1CodeToMask(0x7f)).toThrow(RangeError);
     expect(() => maskToG1Code(64)).toThrow(RangeError);
     expect(() => maskToG1Code(-1)).toThrow(RangeError);
   });
@@ -78,9 +83,10 @@ describe('mosaicStyle', () => {
     expect(style.backgroundPosition).toBe('0% 0%, 100% 0%, 0% 50%, 100% 50%, 0% 100%, 100% 100%');
   });
 
-  it('separates the sixels of a disjoint mosaic', () => {
-    const style = mosaicStyle(0b000010, true)!;
-    expect(style.backgroundSize).toBe('37.5% 20%');
-    expect(style.backgroundPosition).toBe('80% 0%');
+  it('separates the sixels of a disjoint mosaic with bars on the left and at the bottom', () => {
+    const right = mosaicStyle(0b000010, true)!;
+    expect(right.backgroundSize).toBe('37.5% 20%');
+    expect(right.backgroundPosition).toBe('100% 0%');
+    expect(mosaicStyle(0b000001, true)!.backgroundPosition).toBe('20% 0%');
   });
 });

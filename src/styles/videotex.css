@@ -253,9 +253,18 @@
   gap: 10px;
 }
 
+/* Two rows of four, as on the Minitel 1B keyboard. */
 .vtx-keys-faithful {
   display: inline-grid;
-  grid-template-columns: repeat(2, minmax(8.5em, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 9em));
+}
+
+@media (max-width: 420px) {
+  .vtx-keys-faithful .vtx-key {
+    padding-inline: 0.3em;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
 }
 
 .vtx-keys-compact {

@@ -1,10 +1,11 @@
 // The 8 Minitel function keys: names, labels and keyboard shortcuts.
 
 /**
- * Keys in our layout order: two columns, read row by row. The STUM 1B shows the keyboard only in
- * photos, so this arrangement is not verified.
+ * Keys in layout order: two rows of four, read row by row. The STUM 1B photos (part 1, ch. 4) show
+ * this block on every Minitel 1B keyboard, with Sommaire and Annulation first on the top row and the
+ * green Envoi last on the bottom row; the other positions are not legible there.
  */
-export const FUNCTION_KEYS = ['index', 'guide', 'cancel', 'correction', 'back', 'next', 'repeat', 'send'] as const;
+export const FUNCTION_KEYS = ['index', 'cancel', 'back', 'repeat', 'guide', 'correction', 'next', 'send'] as const;
 
 export type FunctionKeyName = (typeof FUNCTION_KEYS)[number];
 

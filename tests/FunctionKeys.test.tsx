@@ -11,17 +11,17 @@ const press = (key: string, init: KeyboardEventInit = {}, target: EventTarget = 
   });
 
 describe('FunctionKeys', () => {
-  it('shows 8 buttons in two columns of four, in English by default', () => {
+  it('shows 8 buttons in two rows of four, in English by default', () => {
     const { getByRole, getAllByRole, container } = render(<FunctionKeys />);
     expect(getByRole('group', { name: 'Function keys' })).toBeTruthy();
     expect(getAllByRole('button').map((b) => b.textContent)).toEqual([
       'Index',
-      'Guide',
       'Cancel',
-      'Correction',
       'Back',
-      'Next',
       'Repeat',
+      'Guide',
+      'Correction',
+      'Next',
       'Send',
     ]);
     expect(container.firstElementChild!.className).toContain('vtx-keys-faithful');
