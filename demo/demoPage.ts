@@ -1,4 +1,4 @@
-// Home page of a fictional service, used to show what Ecran can draw.
+// Home page of a fictional service, used to show what Screen can draw.
 import { bitmapToMasks, COLOR_NAMES, PageBuilder, SIXEL_FULL, type ColorName, type Page } from '../src';
 
 const WIDTH = 80; // 40 cells × 2 sixels
@@ -35,20 +35,19 @@ export function buildDemoPage(): Page {
 
   // Service row
   b.moveTo(0, 1).print('VIDEOTEX-UI', { fg: 'cyan' });
-  b.moveTo(0, 29).print('0,00 F/min', { fg: 'cyan' });
+  b.moveTo(0, 29).print('0.00 F/min', { fg: 'cyan' });
 
   // Title band
   b.fill(1, 0, 4, 40, { bg: 'blue' });
-  // Capitals without accents: the Minitel accents lowercase letters only (to check in step 1).
   b.moveTo(3, 2).print('VIDEOTEX UI', { fg: 'yellow', bg: 'blue', size: 'double-size' });
-  b.moveTo(4, 2).print("Kit d'interface pour le web", { bg: 'blue' });
+  b.moveTo(4, 2).print('A UI kit for the web', { bg: 'blue' });
   b.moveTo(2, 32).print('40x25', { fg: 'cyan', bg: 'blue' });
 
   drawSunset(b);
 
   // Menu
-  b.moveTo(16, 2).print('SOMMAIRE', { fg: 'cyan', size: 'double-height' });
-  const entries = ['Composants', 'Mosaïques', 'Palette 8 couleurs', 'Touches de fonction'];
+  b.moveTo(16, 2).print('MAIN MENU', { fg: 'cyan', size: 'double-height' });
+  const entries = ['Components', 'Mosaics', '8-color palette', 'Function keys'];
   entries.forEach((label, i) => {
     b.moveTo(18 + i, 2).print(` ${i + 1} `, { inverse: true }).print(` ${label}`);
   });
@@ -62,11 +61,11 @@ export function buildDemoPage(): Page {
   b.moveTo(19, 30).mosaic(Array(8).fill(0b001111), { fg: 'white', underline: true });
 
   // Prompt
-  b.moveTo(23, 2).print('Votre choix : ');
+  b.moveTo(23, 2).print('Your choice: ');
   b.mosaic(0b110000, { blink: true }).print('.');
-  b.print('  puis ').print(' Envoi ', { inverse: true, fg: 'green' });
+  b.print('  then ').print(' Send ', { inverse: true, fg: 'green' });
 
-  b.moveTo(24, 2).print('Service fictif', { fg: 'green', underline: true }).print(' - aucune donnée réelle', { fg: 'green' });
+  b.moveTo(24, 2).print('Fictional service', { fg: 'green', underline: true }).print(' - no real data', { fg: 'green' });
 
   return b.build();
 }

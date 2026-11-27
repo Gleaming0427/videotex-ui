@@ -60,7 +60,7 @@ export function sizeFromSpan(width: 1 | 2, height: 1 | 2): CharSize {
   return height === 2 ? 'double-height' : 'normal';
 }
 
-/** Colours actually painted, once inversion is applied. */
+/** Colors actually painted, once inversion is applied. */
 export function displayedColors(cell: Cell): { readonly fg: VtxColor; readonly bg: VtxColor } {
   return cell.set === 'G0' && cell.inverse ? { fg: cell.bg, bg: cell.fg } : { fg: cell.fg, bg: cell.bg };
 }

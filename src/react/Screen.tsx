@@ -18,10 +18,10 @@ import { revealSchedule } from '../core/reveal';
 import { cx } from './cx';
 import { mosaicStyle } from './mosaicStyle';
 
-export interface EcranProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
+export interface ScreenProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   /** The page to show, usually made with `PageBuilder`. */
   page: Page;
-  /** Colour Minitel or monochrome Minitel (8 greys). Default: 'color'. */
+  /** Color Minitel or monochrome Minitel (8 greys). Default: 'color'. */
   palette?: PaletteName;
   /** Scanlines, vignette, glow and a dark border. Default: false. */
   crt?: boolean;
@@ -115,7 +115,7 @@ const CellView = memo(function CellView({ cell, delay }: { cell: Cell; delay: nu
  * The grid is drawn with real text and is hidden from assistive technologies, which read
  * a plain-text version of the page instead.
  */
-export function Ecran({
+export function Screen({
   page,
   palette = 'color',
   crt = false,
@@ -125,9 +125,9 @@ export function Ecran({
   onRevealEnd,
   className,
   style,
-  'aria-label': ariaLabel = 'Écran Vidéotex',
+  'aria-label': ariaLabel = 'Videotex screen',
   ...rest
-}: EcranProps) {
+}: ScreenProps) {
   const rootRef = useRef<HTMLElement>(null);
   const border = crt ? CRT_BORDER : 0;
   const autoScale = useAutoScale(rootRef, scale === 'auto', SCREEN_WIDTH + 2 * border);
@@ -163,7 +163,7 @@ export function Ecran({
     <figure
       ref={rootRef}
       className={cx(
-        'vtx-ecran',
+        'vtx-screen',
         `vtx-palette-${palette}`,
         crt && 'vtx-crt',
         !blink && 'vtx-no-blink',
@@ -174,7 +174,7 @@ export function Ecran({
       aria-label={ariaLabel}
       {...rest}
     >
-      <div className="vtx-screen" aria-hidden="true">
+      <div className="vtx-display" aria-hidden="true">
         {/* A new key restarts the reveal animations when the page or the speed changes. */}
         <div className="vtx-grid" key={schedule ? `${pageId(page)}@${baud}` : 'static'}>
           {cells}

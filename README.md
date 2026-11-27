@@ -1,71 +1,71 @@
 # videotex-ui
 
-Kit d’interface React inspiré du Vidéotex français : grille de 40 × 25, mosaïques semi-graphiques, 8 couleurs, touches de fonction.
+A React UI kit inspired by French Videotex: 40 × 25 grid, mosaic graphics, 8 colors, function keys.
 
-> Projet en cours de construction, dépôt privé. Rien n’est encore publié sur npm.
+> Work in progress, private repository. Nothing is published on npm yet.
 
-## Démarrer
+## Getting started
 
 ```bash
 npm install
-npm run dev        # démo sur http://localhost:5173
+npm run dev        # demo on http://localhost:5173
 npm test           # tests
-npm run build      # bibliothèque dans dist/
+npm run build      # library in dist/
 ```
 
-## Utilisation
+## Usage
 
 ```tsx
-import { Ecran, PageBuilder } from 'videotex-ui';
+import { Screen, PageBuilder } from 'videotex-ui';
 import 'videotex-ui/styles.css';
 
 const page = new PageBuilder()
-  .moveTo(3, 2).print('BONJOUR', { fg: 'yellow', size: 'double-size' })
-  .moveTo(5, 2).print('Tapez votre choix puis ')
-  .print(' Envoi ', { inverse: true })
+  .moveTo(3, 2).print('HELLO', { fg: 'yellow', size: 'double-size' })
+  .moveTo(5, 2).print('Type your choice then ')
+  .print(' Send ', { inverse: true })
   .build();
 
-export function Accueil() {
-  return <Ecran page={page} crt baud={1200} aria-label="Accueil" />;
+export function Home() {
+  return <Screen page={page} crt baud={1200} aria-label="Home" />;
 }
 ```
 
-La police VT323 n’est pas fournie : chargez-la depuis Google Fonts, ou changez `--vtx-font` (et réglez alors `--vtx-font-scale` et `--vtx-font-stretch`).
+The VT323 font is not bundled: load it from Google Fonts, or change `--vtx-font` (then adjust `--vtx-font-scale` and `--vtx-font-stretch`).
 
 ### `PageBuilder`
 
-Écrit une page comme un serveur Vidéotex : on place le curseur, on choisit les attributs, on écrit.
+Writes a page the way a Videotex server does: place the cursor, pick attributes, write.
 
-| Méthode | Rôle |
+| Method | What it does |
 | --- | --- |
-| `moveTo(rangée, colonne)` | Place le curseur (rangées 0 à 24, colonnes 0 à 39) et fixe la marge utilisée par `\n` |
-| `attr({ fg, bg, … })` | Change les attributs des écritures suivantes ; `reset()` revient à ceux du constructeur |
-| `print(texte, attributs?)` | Écrit du texte ; retour à la ligne en colonne 40 |
-| `mosaic(masques, attributs?)` | Écrit des caractères mosaïques (masque de 6 bits, voir `maskFromRows`) |
-| `mosaicBlock(lignes, attributs?)` | Écrit plusieurs rangées de mosaïques, par exemple issues de `bitmapToMasks` |
-| `fill(haut, gauche, hauteur, largeur, attributs?)` | Peint un rectangle |
-| `build()` | Renvoie la page (figée) |
+| `moveTo(row, col)` | Places the cursor (rows 0 to 24, columns 0 to 39) and sets the margin used by `\n` |
+| `attr({ fg, bg, … })` | Changes the attributes of the following writes; `reset()` goes back to the constructor's |
+| `print(text, attrs?)` | Writes text; wraps at column 40 |
+| `mosaic(masks, attrs?)` | Writes mosaic characters (6-bit masks, see `maskFromRows`) |
+| `mosaicBlock(rows, attrs?)` | Writes several rows of mosaics, for example from `bitmapToMasks` |
+| `fill(top, left, height, width, attrs?)` | Paints a rectangle |
+| `build()` | Returns the page (frozen) |
 
-Attributs : `fg` et `bg` (0 à 7 ou `'black'`, `'red'`, `'green'`, `'yellow'`, `'blue'`, `'magenta'`, `'cyan'`, `'white'`), `blink`, `inverse`, `underline` (mosaïque disjointe en mode mosaïque), `size` (`'normal'`, `'double-height'`, `'double-width'`, `'double-size'`).
+Attributes: `fg` and `bg` (0 to 7 or `'black'`, `'red'`, `'green'`, `'yellow'`, `'blue'`, `'magenta'`, `'cyan'`, `'white'`), `blink`, `inverse`, `underline` (disjoint mosaic for mosaic characters), `size` (`'normal'`, `'double-height'`, `'double-width'`, `'double-size'`).
 
-### `Ecran`
+### `Screen`
 
-| Prop | Défaut | Rôle |
+| Prop | Default | What it does |
 | --- | --- | --- |
-| `page` | | Page à afficher |
-| `palette` | `'color'` | `'color'` ou `'monochrome'` (8 niveaux de gris) |
-| `crt` | `false` | Lignes de balayage, vignettage, halo, bord sombre |
-| `baud` | `false` | Affichage progressif à cette vitesse (1200 sur un Minitel) |
-| `scale` | `'auto'` | Taille d’un point en pixels CSS ; `'auto'` prend le plus grand entier qui tient, pour des pixels nets |
-| `blink` | `true` | Active le clignotement |
-| `onRevealEnd` | | Appelée à la fin de l’affichage progressif |
+| `page` | | Page to show |
+| `palette` | `'color'` | `'color'` or `'monochrome'` (8 grey levels) |
+| `crt` | `false` | Scanlines, vignette, glow, dark border |
+| `baud` | `false` | Progressive display at this speed (1200 on a Minitel) |
+| `scale` | `'auto'` | Size of one screen dot in CSS pixels; `'auto'` picks the largest whole number that fits, so pixels stay sharp |
+| `blink` | `true` | Enables blinking |
+| `onRevealEnd` | | Called when the progressive display ends |
 
-Le texte de la page est lu par les lecteurs d’écran ; la grille elle-même leur est masquée. `prefers-reduced-motion` coupe le clignotement, le scintillement et l’affichage progressif.
+Screen readers read the text of the page; the grid itself is hidden from them. `prefers-reduced-motion` turns off blinking, flicker and progressive display.
 
-## Feuille de route
+## Roadmap
 
-Les étapes sont décrites dans [ROADMAP.md](ROADMAP.md) et suivies dans les tickets du dépôt. Les valeurs techniques utilisées, et ce qui reste à vérifier, sont dans [docs/SPECS.md](docs/SPECS.md).
+The steps are described in [ROADMAP.md](ROADMAP.md) and tracked in the repository issues. The technical values in use, and what is still to be verified, are listed in [docs/SPECS.md](docs/SPECS.md).
 
-## Licence
+## License
 
 [MIT](LICENSE)

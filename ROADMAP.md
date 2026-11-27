@@ -1,39 +1,39 @@
-# Feuille de route
+# Roadmap
 
-Chaque étape a son ticket, avec la liste des tâches. Le numéro d’étape est aussi le numéro du ticket.
+Each step has its own issue with the task list. The step number is also the issue number.
 
-## MVP — test de 14 jours
+## MVP — 14-day test
 
-Ce qu’il faut pour le test de validation : 8 composants, page de démo, GIF, publication à J8, mesure à J14.
+What the validation test needs: 8 components, demo page, GIF, launch on day 8, measurement on day 14.
 
-| Étape | Ticket | Fini quand |
+| Step | Issue | Done when |
 | --- | --- | --- |
-| 1 | [Recouper les spécifications avec la STUM](https://github.com/Gleaming0427/videotex-ui/issues/1) | Chaque valeur de `docs/SPECS.md` cite la STUM ou deux sources concordantes. |
-| 2 | [Socle du dépôt](https://github.com/Gleaming0427/videotex-ui/issues/2) | `npm ci`, `npm run typecheck`, `npm test` et `npm run build` passent en local et en CI. |
-| 3 | [Noyau Vidéotex en TypeScript pur](https://github.com/Gleaming0427/videotex-ui/issues/3) | Tests verts et API décrite dans le README. |
-| 4 | [Composant Ecran](https://github.com/Gleaming0427/videotex-ui/issues/4) | La démo affiche une page complète, nette, en couleur et en gris. |
-| 5 | [ClavierFonctions](https://github.com/Gleaming0427/videotex-ui/issues/5) | La démo navigue entre plusieurs pages avec Suite, Retour et Sommaire. |
-| 6 | [Composants de formulaire et de navigation](https://github.com/Gleaming0427/videotex-ui/issues/6) | 8 composants au total (avec `Ecran`, `ClavierFonctions` et `Mosaique`) utilisés dans la démo. |
-| 7 | [Mosaique : convertisseur d’images](https://github.com/Gleaming0427/videotex-ui/issues/7) | Une photo déposée dans la démo s’affiche en mosaïque et s’exporte. |
-| 8 | [Paquet npm et registre shadcn](https://github.com/Gleaming0427/videotex-ui/issues/8) | La commande d’installation shadcn ajoute `Ecran` dans un projet neuf. |
-| 9 | [Vérifications juridiques](https://github.com/Gleaming0427/videotex-ui/issues/9) | Chaque point est vérifié et noté dans `docs/JURIDIQUE.md`. |
-| 10 | [Site de démo et GIF](https://github.com/Gleaming0427/videotex-ui/issues/10) | La démo est en ligne et le GIF dure moins de 10 secondes. |
-| 11 | [Lancement et mesure à J14](https://github.com/Gleaming0427/videotex-ui/issues/11) | Décision écrite de poursuivre ou d’arrêter. |
+| 1 | [Cross-check the specs against the STUM](https://github.com/Gleaming0427/videotex-ui/issues/1) | Every value in `docs/SPECS.md` cites the STUM or two matching sources. |
+| 2 | [Repository setup](https://github.com/Gleaming0427/videotex-ui/issues/2) | `npm ci`, `npm run typecheck`, `npm test` and `npm run build` pass locally and in CI. |
+| 3 | [Videotex core in plain TypeScript](https://github.com/Gleaming0427/videotex-ui/issues/3) | Tests pass and the API is described in the README. |
+| 4 | [Screen component](https://github.com/Gleaming0427/videotex-ui/issues/4) | The demo shows a full, sharp page in color and in grey. |
+| 5 | [FunctionKeys](https://github.com/Gleaming0427/videotex-ui/issues/5) | The demo moves between several pages with Next, Back and Index. |
+| 6 | [Form and navigation components](https://github.com/Gleaming0427/videotex-ui/issues/6) | 8 components in total (with `Screen`, `FunctionKeys` and `Mosaic`) used in the demo. |
+| 7 | [Mosaic: image converter](https://github.com/Gleaming0427/videotex-ui/issues/7) | A photo dropped into the demo shows as a mosaic and can be exported. |
+| 8 | [npm package and shadcn registry](https://github.com/Gleaming0427/videotex-ui/issues/8) | The shadcn install command adds `Screen` to a fresh project. |
+| 9 | [Legal checks](https://github.com/Gleaming0427/videotex-ui/issues/9) | Each point is checked and recorded in `docs/LEGAL.md`. |
+| 10 | [Demo site and GIF](https://github.com/Gleaming0427/videotex-ui/issues/10) | The demo is online and the GIF lasts under 10 seconds. |
+| 11 | [Launch and day-14 measurement](https://github.com/Gleaming0427/videotex-ui/issues/11) | A written decision to continue or stop. |
 
 ## v1
 
-Fidélité complète après le test : police maison, rendu Canvas, flux Vidéotex.
+Full fidelity after the test: custom font, Canvas renderer, Videotex streams.
 
-| Étape | Ticket | Fini quand |
+| Step | Issue | Done when |
 | --- | --- | --- |
-| 12 | [Police à pixels 8 × 10](https://github.com/Gleaming0427/videotex-ui/issues/12) | La démo n’utilise plus VT323. |
-| 13 | [Rendu Canvas au pixel près](https://github.com/Gleaming0427/videotex-ui/issues/13) | Les rendus DOM et Canvas d’une même page sont identiques à l’œil. |
-| 14 | [Flux Vidéotex (.vdt)](https://github.com/Gleaming0427/videotex-ui/issues/14) | Une page exportée se relit à l’identique dans miedit. |
+| 12 | [8 × 10 pixel font](https://github.com/Gleaming0427/videotex-ui/issues/12) | The demo no longer uses VT323. |
+| 13 | [Pixel-exact Canvas renderer](https://github.com/Gleaming0427/videotex-ui/issues/13) | DOM and Canvas renders of the same page look identical. |
+| 14 | [Videotex streams (.vdt)](https://github.com/Gleaming0427/videotex-ui/issues/14) | An exported page reads back identically in miedit. |
 
-## Ordre conseillé
+## Suggested order
 
-1. Étapes 2 à 4 : socle, noyau et `Ecran`, sur lesquels tout le reste s’appuie.
-2. Étape 1 en parallèle : les valeurs vérifiées corrigent les constantes du noyau.
-3. Étapes 5 à 7 : les autres composants.
-4. Étapes 8 à 10 : paquet, vérifications juridiques, démo.
-5. Étape 11 : lancement (un samedi, pour r/webdev).
+1. Steps 2 to 4: setup, core and `Screen`, which everything else builds on.
+2. Step 1 in parallel: the verified values correct the core constants.
+3. Steps 5 to 7: the other components.
+4. Steps 8 to 10: package, legal checks, demo.
+5. Step 11: launch (on a Saturday, for r/webdev).

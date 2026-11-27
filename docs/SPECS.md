@@ -1,28 +1,28 @@
-# Spécifications utilisées par le code
+# Specifications used by the code
 
-Valeurs reprises dans le noyau (`src/core`). Tant que l’[étape 1](https://github.com/Gleaming0427/videotex-ui/issues/1) n’est pas faite, aucune n’est recoupée avec la STUM (Spécifications techniques d’utilisation du Minitel).
+Values used in the core (`src/core`). Until [step 1](https://github.com/Gleaming0427/videotex-ui/issues/1) is done, none of them has been cross-checked against the STUM (the official Minitel technical specification).
 
-Statut : **source unique** = une seule source citée dans la fiche projet ; **à recouper** = valeur de travail, sans source vérifiée.
+Status: **single source** = one source cited in the project sheet; **to check** = working value, no verified source.
 
-| Sujet | Valeur dans le code | Où | Statut |
+| Topic | Value in the code | Where | Status |
 | --- | --- | --- | --- |
-| Grille | 40 colonnes × 25 rangées | `grid.ts` | Source unique (Wikipédia) |
-| Ligne 0 | Ligne de service : pas de retour à la ligne, taille normale seulement | `grid.ts`, `builder.ts` | À recouper |
-| Cellule | 8 × 10 points (écran de 320 × 250 points) | `grid.ts` | À recouper |
-| Mosaïques | 2 × 3 sixels ; colonnes de 4 points ; rangées de 3, 4 et 3 points | `mosaic.ts` | À recouper |
-| Codes G1 | 0x20 à 0x3F puis 0x60 à 0x7F ; bit 6 du code = sixel en bas à droite | `mosaic.ts` | À recouper |
-| Mosaïque disjointe | Attribut de soulignement en mode mosaïque ; chaque sixel perd 1 point à droite et en bas | `mosaicStyle.ts` | À recouper |
-| Couleurs | Noir, rouge, vert, jaune, bleu, magenta, cyan, blanc (codes 0 à 7) | `palette.ts` | À recouper |
-| Niveaux de gris | Ordre de luminance : noir, bleu, rouge, magenta, vert, cyan, jaune, blanc ; 8 niveaux également espacés | `palette.ts` | Ordre à recouper, espacement supposé |
-| Double hauteur | Le caractère occupe la rangée du curseur et celle du dessus ; refusée en rangées 0 et 1 | `builder.ts` | À recouper |
-| Double largeur | Le caractère occupe la colonne du curseur et la suivante | `builder.ts` | À recouper |
-| Attributs en mosaïque | Ni taille ni inversion ; le clignotement s’applique | `builder.ts` | À recouper |
-| Accents | Pas de majuscules accentuées (la démo écrit « VIDEOTEX ») | `demo/demoPage.ts` | À recouper |
-| Vitesse | 1 200 bauds, 10 bits par caractère, soit 120 caractères par seconde | `reveal.ts` | À recouper |
-| Touches de fonction | Répétition, Suite, Sommaire, Guide, Annulation, Retour, Correction, Envoi | (étape 5) | Source unique (brochure DGT de 1986) |
+| Grid | 40 columns × 25 rows | `grid.ts` | Single source (Wikipedia) |
+| Row 0 | Service row: no wrapping, normal size only | `grid.ts`, `builder.ts` | To check |
+| Cell | 8 × 10 dots (320 × 250-dot screen) | `grid.ts` | To check |
+| Mosaics | 2 × 3 sixels; 4-dot columns; rows of 3, 4 and 3 dots | `mosaic.ts` | To check |
+| G1 codes | 0x20 to 0x3F, then 0x60 to 0x7F; bit 6 of the code = bottom-right sixel | `mosaic.ts` | To check |
+| Disjoint mosaic | Underline attribute in mosaic mode; each sixel loses 1 dot on the right and at the bottom | `mosaicStyle.ts` | To check |
+| Colors | Black, red, green, yellow, blue, magenta, cyan, white (codes 0 to 7) | `palette.ts` | To check |
+| Grey levels | Luminance order: black, blue, red, magenta, green, cyan, yellow, white; 8 evenly spaced levels | `palette.ts` | Order to check, spacing assumed |
+| Double height | The character covers the cursor row and the row above; refused on rows 0 and 1 | `builder.ts` | To check |
+| Double width | The character covers the cursor column and the next one | `builder.ts` | To check |
+| Attributes on mosaics | No size, no inverse; blinking applies | `builder.ts` | To check |
+| Accents | No accented capitals | (demo) | To check |
+| Speed | 1,200 baud, 10 bits per character, so 120 characters per second | `reveal.ts` | To check |
+| Function keys | Répétition, Suite, Sommaire, Guide, Annulation, Retour, Correction, Envoi | (step 5) | Single source (1986 DGT brochure) |
 
-## Simplifications connues
+## Known simplifications
 
-- **Attributs parallèles** : chaque cellule porte ses propres couleurs et attributs. Un vrai Minitel utilise des attributs sériels (le fond change sur un délimiteur). Le mode fidèle strict arrive avec le décodeur de flux ([étape 14](https://github.com/Gleaming0427/videotex-ui/issues/14)).
-- **Recouvrement des doubles tailles** : écrire par-dessus une partie d’un caractère double ne nettoie pas les autres parties.
-- **Police** : VT323 (Google Fonts) étirée horizontalement en attendant la police maison ([étape 12](https://github.com/Gleaming0427/videotex-ui/issues/12)).
+- **Parallel attributes**: each cell carries its own colors and attributes. A real Minitel uses serial attributes (the background changes on a delimiter). The strict faithful mode comes with the stream decoder ([step 14](https://github.com/Gleaming0427/videotex-ui/issues/14)).
+- **Overlapping double sizes**: writing over part of a double-size character does not clear its other parts.
+- **Font**: VT323 (Google Fonts) stretched horizontally until the custom font is ready ([step 12](https://github.com/Gleaming0427/videotex-ui/issues/12)).

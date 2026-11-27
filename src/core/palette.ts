@@ -1,9 +1,9 @@
-// The 8 Videotex colour codes and how each Minitel model shows them.
+// The 8 Videotex color codes and how each Minitel model shows them.
 
 export const COLOR_NAMES = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'] as const;
 
 export type ColorName = (typeof COLOR_NAMES)[number];
-/** Colour code, 0 to 7, in the order of {@link COLOR_NAMES}. */
+/** Color code, 0 to 7, in the order of {@link COLOR_NAMES}. */
 export type VtxColor = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type ColorInput = VtxColor | ColorName;
 
@@ -14,10 +14,10 @@ export function toColor(input: ColorInput): VtxColor {
     const index = (COLOR_NAMES as readonly string[]).indexOf(input);
     if (index >= 0) return index as VtxColor;
   }
-  throw new RangeError(`Invalid Videotex colour: ${String(input)}. Expected 0 to 7 or one of: ${COLOR_NAMES.join(', ')}.`);
+  throw new RangeError(`Invalid Videotex color: ${String(input)}. Expected 0 to 7 or one of: ${COLOR_NAMES.join(', ')}.`);
 }
 
-/** Colour Minitel: the three primaries and their mixes. */
+/** Color Minitel: the three primaries and their mixes. */
 export const COLOR_RGB: readonly string[] = Object.freeze([
   '#000000',
   '#ff0000',
@@ -30,12 +30,12 @@ export const COLOR_RGB: readonly string[] = Object.freeze([
 ]);
 
 /**
- * Monochrome Minitel: each colour code becomes a grey level.
- * Codes from darkest to brightest, following the luminance of each colour (to check against the STUM).
+ * Monochrome Minitel: each color code becomes a grey level.
+ * Codes from darkest to brightest, following the luminance of each color (to check against the STUM).
  */
 export const LUMINANCE_ORDER: readonly VtxColor[] = Object.freeze([0, 4, 1, 5, 2, 6, 3, 7] as VtxColor[]);
 
-/** Grey for each colour code, 8 evenly spaced levels (spacing to check against the STUM). */
+/** Grey for each color code, 8 evenly spaced levels (spacing to check against the STUM). */
 export const GREY_RGB: readonly string[] = Object.freeze(
   COLOR_NAMES.map((_, code) => {
     const level = LUMINANCE_ORDER.indexOf(code as VtxColor);
