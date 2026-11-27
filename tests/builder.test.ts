@@ -36,8 +36,8 @@ describe('PageBuilder: text', () => {
   });
 
   it('returns to the margin set by moveTo on \\n', () => {
-    const b = new PageBuilder().moveTo(5, 4).print('un').print('\ndeux');
-    expect(rowText(b, 6)).toBe('    deux');
+    const b = new PageBuilder().moveTo(5, 4).print('one').print('\ntwo');
+    expect(rowText(b, 6)).toBe('    two');
   });
 
   it('cuts the service row instead of wrapping it', () => {
@@ -138,12 +138,12 @@ describe('text output', () => {
       .moveTo(0, 1)
       .print('SERVICE')
       .moveTo(3, 2)
-      .print('BONJOUR', { size: 'double-width' })
+      .print('HELLO', { size: 'double-width' })
       .moveTo(5, 0)
       .mosaic([SIXEL_FULL, SIXEL_FULL])
-      .print('  Tapez   1')
+      .print('  Type   1')
       .build();
-    expect(pageToPlainText(page)).toEqual(['SERVICE', 'B O N J O U R', 'Tapez 1']);
+    expect(pageToPlainText(page)).toEqual(['SERVICE', 'H E L L O', 'Type 1']);
   });
 
   it('can write mosaics as Unicode', () => {
@@ -165,7 +165,7 @@ describe('revealSchedule', () => {
     expect(schedule.delays[40]).toBeCloseTo(1000 / 120);
   });
 
-  it('counts coloured spaces but not black ones', () => {
+  it('counts colored spaces but not black ones', () => {
     const page = new PageBuilder().fill(1, 0, 1, 10, { bg: 'blue' }).build();
     expect(revealSchedule(page, 1200).duration).toBeCloseTo((10 * 1000) / 120);
   });

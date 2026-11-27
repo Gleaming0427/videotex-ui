@@ -20,7 +20,7 @@ describe('palette', () => {
     expect(() => toColor('orange' as never)).toThrow(RangeError);
   });
 
-  it('orders the greys by the luminance of each colour', () => {
+  it('orders the greys by the luminance of each color', () => {
     const byLuma = [...COLOR_RGB.keys()].sort((a, b) => luma(COLOR_RGB[a]!) - luma(COLOR_RGB[b]!));
     expect(byLuma).toEqual(LUMINANCE_ORDER);
     const greys = LUMINANCE_ORDER.map((code) => luma(GREY_RGB[code]!));
@@ -29,7 +29,7 @@ describe('palette', () => {
     expect(GREY_RGB[7]).toBe('#ffffff');
   });
 
-  it('matches the colours of the stylesheet', () => {
+  it('matches the colors of the stylesheet', () => {
     const css = readFileSync(new URL('../src/styles/videotex.css', import.meta.url), 'utf8');
     const block = (name: string) => {
       const body = css.match(new RegExp(`\\.vtx-palette-${name} \\{([^}]*)\\}`))?.[1] ?? '';

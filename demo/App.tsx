@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Ecran, MINITEL_BAUD, type PaletteName } from '../src';
+import { Screen, MINITEL_BAUD, type PaletteName } from '../src';
 import { buildDemoPage } from './demoPage';
 
 export function App() {
@@ -14,28 +14,28 @@ export function App() {
     <main className="demo">
       <header className="demo-header">
         <h1>videotex-ui</h1>
-        <p>Kit d’interface React inspiré du Vidéotex : grille de 40 × 25, mosaïques, 8 couleurs.</p>
+        <p>React UI kit inspired by French Videotex: 40 × 25 grid, mosaic graphics, 8 colors.</p>
       </header>
 
-      <Ecran
+      <Screen
         key={replay}
         page={page}
         palette={palette}
         crt={crt}
         baud={slow ? MINITEL_BAUD : false}
-        onRevealEnd={() => setStatus('Page affichée.')}
-        aria-label="Page d’accueil d’un service fictif"
+        onRevealEnd={() => setStatus('Page displayed.')}
+        aria-label="Home page of a fictional service"
       />
 
-      <div className="demo-controls" role="group" aria-label="Réglages de l’écran">
+      <div className="demo-controls" role="group" aria-label="Screen settings">
         <button type="button" onClick={() => setPalette((p) => (p === 'color' ? 'monochrome' : 'color'))}>
-          Palette : {palette === 'color' ? 'couleur' : 'monochrome'}
+          Palette: {palette}
         </button>
         <label>
-          <input type="checkbox" checked={crt} onChange={(e) => setCrt(e.target.checked)} /> Effet cathodique
+          <input type="checkbox" checked={crt} onChange={(e) => setCrt(e.target.checked)} /> CRT effect
         </label>
         <label>
-          <input type="checkbox" checked={slow} onChange={(e) => setSlow(e.target.checked)} /> Affichage à 1 200 bauds
+          <input type="checkbox" checked={slow} onChange={(e) => setSlow(e.target.checked)} /> Display at 1,200 baud
         </label>
         <button
           type="button"
@@ -44,7 +44,7 @@ export function App() {
             setReplay((n) => n + 1);
           }}
         >
-          Rejouer
+          Replay
         </button>
         <span className="demo-status" role="status">
           {status}
