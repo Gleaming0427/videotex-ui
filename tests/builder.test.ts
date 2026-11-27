@@ -40,9 +40,9 @@ describe('PageBuilder: text', () => {
     expect(rowText(b, 6)).toBe('    two');
   });
 
-  it('cuts the service row instead of wrapping it', () => {
+  it('shows the extra characters of the service row in column 40 (STUM)', () => {
     const b = new PageBuilder().moveTo(0, 35).print('abcdefgh');
-    expect(rowText(b, 0)).toBe(' '.repeat(35) + 'abcde');
+    expect(rowText(b, 0)).toBe(' '.repeat(35) + 'abcdh');
     expect(rowText(b, 1)).toBe('');
   });
 
@@ -77,21 +77,26 @@ describe('PageBuilder: double sizes', () => {
     expect([cellAt(page, 5, 1), cellAt(page, 4, 0), cellAt(page, 4, 1)].every((c) => c.covered)).toBe(true);
   });
 
-  it('refuses double height on rows 0 and 1', () => {
+  it('ignores double height and double size on rows 0 and 1, but not double width (STUM)', () => {
     const page = new PageBuilder()
       .moveTo(1, 0)
       .print('A', { size: 'double-size' })
+      .print('B', { size: 'double-height' })
+      .print('C', { size: 'double-width' })
       .moveTo(0, 0)
-      .print('B', { size: 'double-size' })
+      .print('D', { size: 'double-size' })
       .build();
-    expect(cellAt(page, 1, 0).size).toBe('double-width');
+    expect([cellAt(page, 1, 0).size, cellAt(page, 1, 1).size]).toEqual(['normal', 'normal']);
+    expect(cellAt(page, 1, 2).size).toBe('double-width');
     expect(cellAt(page, 0, 0).size).toBe('normal');
   });
 
-  it('wraps a double-width character that does not fit', () => {
-    const page = new PageBuilder().moveTo(5, 39).print('A', { size: 'double-width' }).build();
-    expect(cellAt(page, 5, 39).char).toBe(' ');
-    expect(cellAt(page, 6, 0)).toMatchObject({ char: 'A', size: 'double-width' });
+  it('draws a double-width character at normal width in column 40 (STUM)', () => {
+    const page = new PageBuilder().moveTo(5, 39).print('A', { size: 'double-width' }).print('B').build();
+    expect(cellAt(page, 5, 39)).toMatchObject({ char: 'A', size: 'normal' });
+    expect(cellAt(page, 6, 0).char).toBe('B');
+    const tall = new PageBuilder().moveTo(5, 39).print('A', { size: 'double-size' }).build();
+    expect(cellAt(tall, 5, 39).size).toBe('double-height');
   });
 });
 

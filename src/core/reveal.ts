@@ -1,7 +1,7 @@
 import { isVisiblyEmpty } from './cell';
 import type { Page } from './page';
 
-/** Bits sent per character on a Minitel line: start, 7 data bits, parity, stop (to check). */
+/** Bits sent per character on a Minitel line: start, 7 data bits, even parity, stop (STUM 1B). */
 export const BITS_PER_CHARACTER = 10;
 
 /** Usual Minitel speed, in bauds. */

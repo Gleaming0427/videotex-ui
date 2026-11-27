@@ -29,6 +29,11 @@ describe('palette', () => {
     expect(GREY_RGB[7]).toBe('#ffffff');
   });
 
+  it('uses the grey levels of the STUM 1B', () => {
+    // black 0 %, red 50 %, green 70 %, yellow 90 %, blue 40 %, magenta 60 %, cyan 80 %, white 100 %
+    expect(GREY_RGB).toEqual(['#000000', '#808080', '#b3b3b3', '#e6e6e6', '#666666', '#999999', '#cccccc', '#ffffff']);
+  });
+
   it('matches the colors of the stylesheet', () => {
     const css = readFileSync(new URL('../src/styles/videotex.css', import.meta.url), 'utf8');
     const block = (name: string) => {

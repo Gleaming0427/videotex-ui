@@ -9,7 +9,8 @@ const cache = new Map<number, CSSProperties>();
 /**
  * Draws the lit sixels of a mosaic cell as background layers in `currentColor`.
  * With an integer scale every layer lands on whole pixels, so mosaics stay sharp.
- * Disjoint mosaics lose one dot on the right and bottom of each sixel (to check against the STUM).
+ * Disjoint mosaics show 2 vertical and 3 horizontal bars of background (STUM 1B, part 1, ch. 3,
+ * §2.3.2): here each sixel loses one dot on the right and at the bottom (bar width: our choice).
  */
 export function mosaicStyle(mask: SixelMask, disjoint: boolean): CSSProperties | undefined {
   if (mask === 0) return undefined;

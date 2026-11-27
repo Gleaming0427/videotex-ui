@@ -79,7 +79,8 @@ describe('imageToMosaic', () => {
   });
 
   it('matches grey levels with the monochrome palette', () => {
-    const grey = convert(picture(1, 1, () => [0x92, 0x92, 0x92]), 1, 1, { palette: 'monochrome' });
+    // 70 % is green on the monochrome Minitel (STUM 1B).
+    const grey = convert(picture(1, 1, () => [0xb3, 0xb3, 0xb3]), 1, 1, { palette: 'monochrome' });
     expect(only(grey)).toEqual({ mask: SIXEL_FULL, fg: 2, bg: 0 });
   });
 
@@ -131,7 +132,7 @@ describe('renderMosaic', () => {
     const { width, data } = renderMosaic(half, { scale: 2, palette: 'monochrome' });
     expect(width).toBe(16);
     const right = 8 * 4;
-    expect(data[right]).toBe(0x24);
+    expect(data[right]).toBe(0x66); // blue: 40 %
   });
 
   it('turns a converted picture back into the same picture', () => {

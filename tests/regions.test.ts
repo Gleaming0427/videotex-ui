@@ -31,7 +31,7 @@ describe('titleRegion', () => {
     expect(titleRegion('HI', 5, 0, { size: 'normal' }).cells).toHaveLength(1);
     const onRowOne = titleRegion('HI', 1, 0);
     expect(onRowOne.top).toBe(1);
-    expect(text(onRowOne.cells)).toEqual(['H+I+']);
+    expect(text(onRowOne.cells)).toEqual(['HI']);
   });
 
   it('is cut at the right edge', () => {

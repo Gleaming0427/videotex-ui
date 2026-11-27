@@ -17,9 +17,12 @@ export const SIXEL_LEFT: SixelMask = 0b010101;
 /** Right column only (▐). */
 export const SIXEL_RIGHT: SixelMask = 0b101010;
 
-/** Width of a sixel column, in dots, for an 8-dot cell (to check). */
+/** Width of a sixel column, in dots, for an 8-dot cell (half the cell). */
 export const SIXEL_WIDTH = 4;
-/** Height of the top, middle and bottom sixel rows, in dots, for a 10-dot cell (to check). */
+/**
+ * Height of the top, middle and bottom sixel rows, in dots, for a 10-dot cell.
+ * The STUM 1B splits the cell into 6 blocks but gives no heights: 3, 4, 3 is our choice.
+ */
 export const SIXEL_ROW_HEIGHTS: readonly [number, number, number] = [3, 4, 3];
 
 export function isSixelMask(value: number): boolean {
