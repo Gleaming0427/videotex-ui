@@ -4,7 +4,7 @@ A React UI kit inspired by French Videotex: 40 × 25 grid, mosaic graphics, 8 co
 
 ![A small web page switches to Videotex mode: the same React components are drawn on a 40 × 25 screen at 1,200 baud](docs/media/demo.gif)
 
-The demo has a fictional Videotex service, the switch between web and Videotex modes, and a converter that turns a picture into mosaic characters (`npm run dev`).
+**[Try the demo](https://gleaming0427.github.io/videotex-ui/)**: a fictional Videotex service, the switch between web and Videotex modes, and a converter that turns a picture into mosaic characters.
 
 > Version 0.1.0 is ready but not published yet: the install commands below work once it is on npm.
 
@@ -208,7 +208,7 @@ npm run registry:build   # shadcn registry in r/
 npm run record           # GIF and screenshots in docs/media/ (needs Google Chrome and ffmpeg)
 ```
 
-`npm pack` and `npm publish` build the library and the registry first. Changes go in [CHANGELOG.md](CHANGELOG.md).
+`npm pack` and `npm publish` build the library and the registry first. The demo is published on GitHub Pages after every change on `main`. Changes go in [CHANGELOG.md](CHANGELOG.md).
 
 ## Roadmap
 
