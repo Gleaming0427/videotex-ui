@@ -7,6 +7,8 @@ import { Frame } from '../src/react/Frame';
 import { FunctionKeys } from '../src/react/FunctionKeys';
 import { InputField } from '../src/react/InputField';
 import { Menu } from '../src/react/Menu';
+import { Mosaic } from '../src/react/Mosaic';
+import type { MosaicImage } from '../src/core/image';
 import { Screen } from '../src/react/Screen';
 import { StatusRow } from '../src/react/StatusRow';
 import { Title } from '../src/react/Title';
@@ -184,5 +186,38 @@ describe('InputField', () => {
       input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
     });
     expect(onKey.mock.calls).toEqual([['send']]);
+  });
+});
+
+describe('Mosaic', () => {
+  const picture: MosaicImage = {
+    cols: 3,
+    rows: 2,
+    cells: [
+      [{ mask: 63, fg: 1, bg: 0 }, { mask: 21, fg: 7, bg: 4 }, { mask: 0, fg: 0, bg: 0 }],
+      [{ mask: 42, fg: 3, bg: 0 }, { mask: 63, fg: 2, bg: 0 }, { mask: 1, fg: 6, bg: 5 }],
+    ],
+  };
+
+  it('is an image named by alt, drawn with one cell per mosaic cell', () => {
+    const { getByRole, container } = render(<Mosaic data={picture} alt="A flag" palette="monochrome" scale={3} />);
+    const img = getByRole('img', { name: 'A flag' });
+    expect(img.className).toContain('vtx-palette-monochrome');
+    expect(img.style.getPropertyValue('--vtx-px')).toBe('3px');
+    expect(container.querySelectorAll('.vtx-cell')).toHaveLength(6);
+    expect(container.querySelectorAll('.vtx-bg-4')).toHaveLength(1);
+  });
+
+  it('sits on the grid of a screen and is cut at its edges', () => {
+    const { getByRole, container } = onScreen(<Mosaic data={picture} alt="A flag" row={24} col={38} />);
+    const img = getByRole('img', { name: 'A flag' });
+    expect(img.style.gridRow).toBe('25 / span 1');
+    expect(img.style.gridColumn).toBe('39 / span 2');
+    expect(container.querySelectorAll('.vtx-layer .vtx-cell')).toHaveLength(2);
+  });
+
+  it('shows nothing until a picture is converted', () => {
+    const { container } = render(<Mosaic alt="Loading" />);
+    expect(container.innerHTML).toBe('');
   });
 });

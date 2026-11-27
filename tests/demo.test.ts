@@ -40,6 +40,15 @@ describe('demo navigation', () => {
     expect(reduce(inGuide, key('back')).page).toBe('mosaics');
   });
 
+  it('opens the converted picture as a side trip', () => {
+    const picture = run(key('next'), { type: 'picture' });
+    expect(picture.page).toBe('picture');
+    expect(reduce(picture, key('next')).message).toBe('Press Back');
+    expect(reduce(picture, key('back')).page).toBe('components');
+    const guide = reduce(picture, key('guide'));
+    expect(reduce(guide, key('back')).page).toBe('components');
+  });
+
   it('draws the page again with Repeat', () => {
     expect(run(key('repeat')).replay).toBe(1);
   });
@@ -51,7 +60,7 @@ describe('demo navigation', () => {
   });
 
   it('builds every background within the 40 × 25 grid', () => {
-    for (const page of [...SEQUENCE, 'guide'] as const) {
+    for (const page of [...SEQUENCE, 'guide', 'picture'] as const) {
       const lines = pageToText(buildPage(page)).split('\n');
       expect(lines).toHaveLength(25);
       expect(Math.max(...lines.map((l) => l.length))).toBeLessThanOrEqual(40);

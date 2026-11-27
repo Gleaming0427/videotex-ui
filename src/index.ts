@@ -7,5 +7,7 @@ export { StatusRow, type StatusRowProps } from './react/StatusRow';
 export { Frame, type FrameProps } from './react/Frame';
 export { InputField, type InputFieldProps } from './react/InputField';
 export { Menu, type MenuProps } from './react/Menu';
+export { Mosaic, type MosaicProps } from './react/Mosaic';
+export { convertImage, imagePixels, loadImage, mosaicToPng, type ConvertImageOptions } from './react/mosaicDom';
 export { CellGrid, gridArea, useScreen, type ScreenContextValue } from './react/cells';
 export { mosaicStyle } from './react/mosaicStyle';

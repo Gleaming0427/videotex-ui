@@ -66,7 +66,7 @@ Screen readers read the text of the page; the grid itself is hidden from them. `
 
 ### Components on the screen, or on their own
 
-`Title`, `StatusRow`, `Menu`, `InputField` and `Frame` work in two ways:
+`Title`, `StatusRow`, `Menu`, `InputField`, `Frame` and `Mosaic` work in two ways:
 
 - **On a screen** (faithful mode): as children of `Screen`, placed with `row` and `col`. They are drawn with the same cells as the page, over it, and stay real headings, lists, buttons and inputs for keyboards and screen readers. They appear once a progressive display has ended.
 - **On their own** (modern mode): anywhere in a page, with the Videotex font and colors, following the page layout.
@@ -88,6 +88,48 @@ Screen readers read the text of the page; the grid itself is hidden from them. `
 | `Menu` | `items`, `onSelect(index)`, `start` (1), `fg`, `numberFg`, `row`, `col`, `spacing` (1) | Arrow keys move, a digit jumps to its item, Enter or a click chooses. The focused item shows in inverse |
 | `InputField` | `label`, `size`, `value` / `defaultValue`, `onChange`, `onSubmit`, `type` (`'text'` or `'digits'`), `autoFocus`, `row`, `col` | On a screen: dots and a blinking cursor over a transparent native input. Enter, Escape, Page Up and Page Down still reach `FunctionKeys` while typing, unless `onSubmit` handles Enter |
 | `Frame` | `title`, `fg` (`'cyan'`), `fill`, `row`, `col`, `height`, `width`, `children` | A mosaic border. On a screen, children keep screen coordinates |
+
+### `Mosaic` and the image converter
+
+`Mosaic` turns a picture into mosaic characters: every cell keeps the two colors, out of 8, closest to that part of the picture.
+
+```tsx
+// Converted in the browser (same site, data or blob URL, or a site that allows CORS)
+<Mosaic src="/cat.jpg" cols={32} dither alt="A cat" />
+
+// On a screen: fitted and centered in a 40 × 16 box from row 5
+<Screen page={page}>
+  <Mosaic src="/cat.jpg" row={5} col={0} cols={40} rows={16} alt="A cat" />
+</Screen>
+
+// Already converted: no canvas, works on the server
+const cat = decodeMosaic('32x13:…');
+<Mosaic data={cat} alt="A cat" />
+```
+
+| Prop | Default | What it does |
+| --- | --- | --- |
+| `alt` | | Text alternative (required) |
+| `src` / `data` | | A picture to convert, or one already converted (`data` wins) |
+| `cols`, `rows` | 40 columns | One keeps the proportions; both fit the picture in that box |
+| `palette` | the screen's, else `'color'` | `'monochrome'` matches the 8 greys |
+| `dither` | `false` | Ordered dithering (4 × 4 Bayer pattern) for smoother gradients |
+| `row`, `col` | | Position on a screen |
+| `scale` | `2` | Off screen: CSS pixels per screen dot |
+| `onConvert(image)`, `onError(error)` | | After converting `src` |
+
+Functions, for your own tools:
+
+| Function | Where | What it does |
+| --- | --- | --- |
+| `imageToMosaic(pixels, { cols, rows, palette, dither })` | anywhere | RGBA pixels to a `MosaicImage` |
+| `mosaicSize(width, height, { cols, rows })` | anywhere | Cells needed without stretching the picture |
+| `renderMosaic(image, { palette, scale })` | anywhere | A `MosaicImage` back to RGBA pixels |
+| `encodeMosaic(image)`, `decodeMosaic(text)` | anywhere | Compact text form, two characters per cell |
+| `mosaicToCode(image, { name, alt })` | anywhere | A ready-to-paste React component |
+| `PageBuilder.mosaicImage(image)` | anywhere | Writes the picture into a page from the cursor |
+| `convertImage(src, options)` | browser | Loads and converts a picture |
+| `mosaicToPng(image, { palette, scale })` | browser | A PNG `Blob` |
 
 To build your own component for the screen, use `useScreen()` (null when off screen), `gridArea()` and `CellGrid`, with the cell helpers of the core (`titleRegion`, `fieldRegion`, `cropPage`…).
 

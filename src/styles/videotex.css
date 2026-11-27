@@ -412,3 +412,14 @@
   background-color: var(--vtx-frame-color, var(--vtx-c6));
   color: var(--vtx-c0);
 }
+
+/* Mosaic used on its own */
+
+.vtx-mosaic {
+  --vtx-cell-w: calc(var(--vtx-px, 2px) * 8);
+  --vtx-cell-h: calc(var(--vtx-px, 2px) * 10);
+  display: inline-block;
+  vertical-align: top;
+  line-height: 0;
+  background-color: var(--vtx-c0);
+}

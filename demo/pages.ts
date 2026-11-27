@@ -15,7 +15,7 @@ import {
 
 /** Pages reached with Next and Back. The home page lists the other four, numbered 1 to 4. */
 export const SEQUENCE = ['home', 'components', 'mosaics', 'palette', 'keys'] as const;
-export type PageName = (typeof SEQUENCE)[number] | 'guide';
+export type PageName = (typeof SEQUENCE)[number] | 'guide' | 'picture';
 
 export const TITLES: Readonly<Record<PageName, string>> = {
   home: 'VIDEOTEX UI',
@@ -24,6 +24,7 @@ export const TITLES: Readonly<Record<PageName, string>> = {
   palette: '8-COLOR PALETTE',
   keys: 'FUNCTION KEYS',
   guide: 'GUIDE',
+  picture: 'YOUR PICTURE',
 };
 
 export const MENU_ITEMS = ['Components', 'Mosaics', '8-color palette', 'Function keys'];
@@ -43,15 +44,19 @@ export interface DemoState {
 export type DemoAction =
   | { readonly type: 'key'; readonly key: FunctionKeyName }
   | { readonly type: 'input'; readonly value: string }
-  | { readonly type: 'open'; readonly index: number };
+  | { readonly type: 'open'; readonly index: number }
+  /** Shows the picture made with the converter. */
+  | { readonly type: 'picture' };
 
 export const INITIAL_STATE: DemoState = { page: 'home', from: 'home', choice: '', message: '', replay: 0 };
 
 export function reduce(state: DemoState, action: DemoAction): DemoState {
+  // The guide and the picture page are side trips: Back returns to the page they were opened from.
+  const isSideTrip = (page: PageName) => page === 'guide' || page === 'picture';
   const go = (page: PageName): DemoState => ({
     ...state,
     page,
-    from: page === 'guide' ? state.page : state.from,
+    from: isSideTrip(page) && !isSideTrip(state.page) ? state.page : state.from,
     choice: '',
     message: '',
   });
@@ -60,21 +65,23 @@ export function reduce(state: DemoState, action: DemoAction): DemoState {
   if (action.type === 'input') {
     return state.page === 'home' ? { ...state, choice: action.value, message: '' } : state;
   }
+  if (action.type === 'picture') return go('picture');
   if (action.type === 'open') {
     const target = SEQUENCE[action.index + 1];
     return target ? go(target) : state;
   }
   const position = SEQUENCE.indexOf(state.page as (typeof SEQUENCE)[number]);
+  const sideTrip = isSideTrip(state.page);
   switch (action.key) {
     case 'index':
       return go('home');
     case 'guide':
       return state.page === 'guide' ? state : go('guide');
     case 'next':
-      if (state.page === 'guide') return say('Press Back');
+      if (sideTrip) return say('Press Back');
       return position < SEQUENCE.length - 1 ? go(SEQUENCE[position + 1]!) : say('Last page');
     case 'back':
-      if (state.page === 'guide') return go(state.from);
+      if (sideTrip) return go(state.from);
       return position > 0 ? go(SEQUENCE[position - 1]!) : say('First page');
     case 'repeat':
       return { ...state, message: '', replay: state.replay + 1 };
@@ -111,6 +118,8 @@ export function buildPage(page: PageName): Page {
       return keysPage();
     case 'guide':
       return guidePage();
+    case 'picture':
+      return contentPage().build();
   }
 }
 
@@ -196,7 +205,7 @@ function componentsPage(): Page {
     ['Menu', 'ready', 'green'],
     ['InputField', 'ready', 'green'],
     ['Frame', 'ready', 'green'],
-    ['Mosaic', 'step 7', 'yellow'],
+    ['Mosaic', 'ready', 'green'],
   ];
   items.forEach(([name, status, color], i) => {
     b.moveTo(6 + i * 2, 3)

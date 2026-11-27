@@ -1,6 +1,7 @@
 import { BLANK_CELL, sizeFromSpan, sizeSpan, type Cell, type CharSize } from './cell';
 import { assertInside, COLS, FIRST_PAGE_ROW, isInside, LAST_ROW, ROWS, SERVICE_ROW } from './grid';
 import { assertSixelMask, type SixelMask } from './mosaic';
+import type { MosaicImage } from './image';
 import type { Page } from './page';
 import { toColor, type ColorInput, type VtxColor } from './palette';
 
@@ -146,6 +147,23 @@ export class PageBuilder {
     block.forEach((masks, i) => {
       if (row + i > LAST_ROW) return;
       this.moveTo(row + i, col).mosaic(masks, attrs);
+    });
+    return this;
+  }
+
+  /**
+   * Writes a converted picture (see `imageToMosaic`) from the cursor, each cell with its own colors.
+   * Parts beyond the right edge or the last row are cut, never wrapped.
+   */
+  mosaicImage(image: MosaicImage, attrs?: Pick<AttributesInput, 'blink' | 'underline'>): this {
+    const { row, col } = this.#col < COLS ? this.cursor : { row: this.#row + 1, col: 0 };
+    image.cells.forEach((cells, i) => {
+      if (row + i > LAST_ROW) return;
+      this.moveTo(row + i, col);
+      for (let j = 0; j < cells.length && col + j < COLS; j++) {
+        const cell = cells[j]!;
+        this.mosaic(cell.mask, { ...attrs, fg: cell.fg, bg: cell.bg });
+      }
     });
     return this;
   }

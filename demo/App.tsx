@@ -8,11 +8,13 @@ import {
   InputField,
   Menu,
   MINITEL_BAUD,
+  Mosaic,
   Screen,
   StatusRow,
   Title,
   type PaletteName,
 } from '../src';
+import { MosaicConverter, type Picture } from './MosaicConverter';
 import { buildPage, INITIAL_STATE, MENU_ITEMS, reduce, statusRight, TITLES } from './pages';
 
 const KEY_NAMES: Readonly<Record<string, string>> = {
@@ -35,6 +37,7 @@ export function App() {
   const [labels, setLabels] = useState<'en' | 'fr'>('en');
   const revealKey = `${state.page}:${state.replay}`;
   const [displayed, setDisplayed] = useState<string | null>(null);
+  const [shown, setShown] = useState<Picture | null>(null);
 
   // A digit typed outside any field goes to the input field of the home page.
   useEffect(() => {
@@ -96,6 +99,9 @@ export function App() {
             </Title>
           )}
           {state.page === 'guide' && <Frame row={5} col={1} height={14} width={38} title="HOW IT WORKS" />}
+          {state.page === 'picture' && shown && (
+            <Mosaic row={5} col={0} cols={40} rows={16} src={shown.url} dither={shown.dither} alt={`${shown.name}, as a mosaic`} />
+          )}
         </Screen>
         <FunctionKeys shortcuts layout={layout} labels={labels} onKey={(key) => dispatch({ type: 'key', key })} />
       </div>
@@ -131,6 +137,15 @@ export function App() {
           {slow && displayed === revealKey ? 'Page displayed.' : ''}
         </span>
       </div>
+
+      <MosaicConverter
+        shownUrl={shown?.url ?? null}
+        onShow={(picture) => {
+          setShown(picture);
+          dispatch({ type: 'picture' });
+          document.querySelector('.demo-terminal')?.scrollIntoView();
+        }}
+      />
 
       <OutsideTheScreen />
     </main>
