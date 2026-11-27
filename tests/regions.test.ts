@@ -47,6 +47,11 @@ describe('statusRegion', () => {
     expect(row!.slice(17, 22)).toBe('Hello');
     expect(row!.slice(36, 39)).toBe('1/4');
   });
+
+  it('keeps a blank column between the message and the texts around it', () => {
+    const [row] = text(statusRegion({ left: 'VIDEOTEX-UI', message: 'Trains selected', right: '0.00 F/min' }).cells);
+    expect(row).toBe(' VIDEOTEX-UI Trains selected 0.00 F/min ');
+  });
 });
 
 describe('fieldRegion', () => {

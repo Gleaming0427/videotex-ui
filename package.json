@@ -1,7 +1,7 @@
 {
   "name": "videotex-ui",
   "version": "0.1.0",
-  "description": "React UI kit inspired by French Videotex: 40 × 25 grid, mosaic graphics, 8 colours, function keys.",
+  "description": "React UI kit inspired by French Videotex: 40 \u00d7 25 grid, mosaic graphics, 8 colours, function keys.",
   "keywords": [
     "react",
     "minitel",
@@ -46,6 +46,7 @@
     "dev": "vite",
     "build": "vite build -c vite.lib.config.ts && tsc -p tsconfig.build.json",
     "build:demo": "vite build",
+    "record": "npm run build:demo && node scripts/record-demo.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -68,6 +69,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
     "jsdom": "^31.0.1",
+    "puppeteer-core": "25.17.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "shadcn": "4.23.1",

@@ -102,14 +102,37 @@ kbd {
   text-align: center;
 }
 
-.demo-modern {
+.demo-modes {
   margin-top: 48px;
   padding-top: 24px;
   border-top: 1px solid var(--demo-line);
 }
 
-.demo-modern h2 { margin: 0; font-size: 22px; }
+.demo-modes h2 { margin: 0; font-size: 22px; }
 .demo-note { margin: 4px 0 20px; color: var(--demo-muted); }
+
+.demo-modes-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.demo-switch {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--demo-accent);
+  color: #111;
+  font: 600 16px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.demo-switch:hover { filter: brightness(1.1); }
+.demo-switch:focus-visible { outline: 2px solid var(--demo-text); outline-offset: 3px; }
+
+.demo-modes .vtx-screen { width: 100%; }
 
 .demo-modern-grid {
   display: grid;

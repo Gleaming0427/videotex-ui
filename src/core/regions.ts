@@ -41,13 +41,23 @@ export interface StatusOptions {
   readonly messageFg?: ColorInput;
 }
 
-/** Row 0: service name on the left, a centered message, something on the right. */
+/**
+ * Row 0: service name on the left, a centered message, something on the right. The message keeps a
+ * blank column on each side; when there is no room for it, it covers the right part.
+ */
 export function statusRegion(options: StatusOptions): Region {
   const { left = '', message = '', right = '', fg = 'cyan', messageFg = 'yellow' } = options;
   const b = new PageBuilder();
+  const rightCol = Math.max(0, COLS - 1 - length(right));
   if (left) b.moveTo(0, 1).print(left, { fg });
-  if (right) b.moveTo(0, Math.max(0, COLS - 1 - length(right))).print(right, { fg });
-  if (message) b.moveTo(0, Math.max(0, Math.floor((COLS - length(message)) / 2))).print(message, { fg: messageFg });
+  if (right) b.moveTo(0, rightCol).print(right, { fg });
+  if (message) {
+    const first = left ? length(left) + 2 : 0;
+    const last = (right ? rightCol - 1 : COLS) - length(message);
+    const centered = Math.floor((COLS - length(message)) / 2);
+    const col = Math.max(first, Math.min(centered, last));
+    b.moveTo(0, Math.min(col, COLS - 1)).print(message, { fg: messageFg });
+  }
   return { top: 0, left: 0, cells: cropPage(b.build(), 0, 0, 1, COLS) };
 }
 

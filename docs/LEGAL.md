@@ -12,7 +12,7 @@ This is a record of checks, not legal advice. Before any commercial use, or if a
 | "Videotex" and the name `videotex-ui` | A generic term; no mark in force in France or the EU | Keeps the name |
 | Font | VT323 is under the SIL Open Font License 1.1, with no reserved name | Does not bundle it; the demo now serves it itself instead of loading it from Google |
 | Content | No logo, no page from a real service, no 3615 code | Rules below for the demo, the GIF and the launch |
-| Sounds | No sound in the project | Any future sound is synthesized in code |
+| Sounds | No recording in the project | The demo's sounds are synthesized in code |
 
 ## 1. The "Minitel" trademark
 
@@ -78,8 +78,9 @@ Rules for the demo, the GIF ([step 10](https://github.com/Gleaming0427/videotex-
 
 ## 5. Sounds
 
-- No sound file and no audio code in the repository (searched for audio, wav, mp3, ogg, sound).
-- **Rule**: any future sound, such as a key beep or the modem connection, is synthesized in code with the Web Audio API. No recording of a Minitel or a modem, not even one found online: a recording belongs to whoever made it (producer's rights, French IP code art. L213-1).
+- No sound file in the repository (searched for wav, mp3 and ogg).
+- The demo's sounds, a key beep and the modem connection, are computed in `demo/sound.ts` with the Web Audio API, from the V.23 modem standard (frequencies only). They are off by default.
+- **Rule**: any sound is synthesized in code. No recording of a Minitel or a modem, not even one found online: a recording belongs to whoever made it (producer's rights, French IP code art. L213-1).
 
 ## 6. Other points checked
 
