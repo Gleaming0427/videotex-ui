@@ -1,4 +1,6 @@
-// Library build (npm run build): ESM bundle and one CSS file in dist/.
+// Library build (npm run build): one ES module per source file and one CSS file in dist/.
+// Keeping the modules apart keeps each 'use client' directive on its own file, so React Server
+// Components can import the core (PageBuilder, palettes…) without making it client code.
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -10,13 +12,17 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     lib: {
-      entry: resolve(import.meta.dirname, 'src/bundle.ts'),
+      entry: { 'videotex-ui': resolve(import.meta.dirname, 'src/bundle.ts') },
       formats: ['es'],
-      fileName: 'videotex-ui',
       cssFileName: 'videotex-ui',
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],
+      output: {
+        preserveModules: true,
+        preserveModulesRoot: 'src',
+        entryFileNames: (chunk) => (chunk.name === 'bundle' ? 'videotex-ui.js' : '[name].js'),
+      },
     },
   },
 });

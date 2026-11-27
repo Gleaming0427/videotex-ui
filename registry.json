@@ -1,0 +1,843 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "videotex-ui",
+  "homepage": "https://github.com/Gleaming0427/videotex-ui#readme",
+  "items": [
+    {
+      "name": "screen",
+      "type": "registry:ui",
+      "title": "Screen",
+      "description": "The 40 × 25 Videotex screen: shows a page, reveals it at 1,200 baud, in color or grey levels.",
+      "files": [
+        {
+          "path": "src/react/Screen.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Screen.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "function-keys",
+      "type": "registry:ui",
+      "title": "FunctionKeys",
+      "description": "The 8 Minitel function keys (Envoi, Retour, Suite…) with keyboard shortcuts.",
+      "files": [
+        {
+          "path": "src/react/FunctionKeys.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/FunctionKeys.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "title",
+      "type": "registry:ui",
+      "title": "Title",
+      "description": "A title row in normal, double-height or double-size characters.",
+      "files": [
+        {
+          "path": "src/react/Title.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Title.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "status-row",
+      "type": "registry:ui",
+      "title": "StatusRow",
+      "description": "Row 0, the service row: a message on the left and a status on the right.",
+      "files": [
+        {
+          "path": "src/react/StatusRow.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/StatusRow.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "frame",
+      "type": "registry:ui",
+      "title": "Frame",
+      "description": "A frame drawn with mosaic characters, with an optional title.",
+      "files": [
+        {
+          "path": "src/react/Frame.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Frame.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "input-field",
+      "type": "registry:ui",
+      "title": "InputField",
+      "description": "A Videotex input field: dots to type on, a native input for accessibility.",
+      "files": [
+        {
+          "path": "src/react/InputField.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/InputField.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "menu",
+      "type": "registry:ui",
+      "title": "Menu",
+      "description": "A numbered menu, chosen with the digit keys or the arrows.",
+      "files": [
+        {
+          "path": "src/react/Menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Menu.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "mosaic",
+      "type": "registry:ui",
+      "title": "Mosaic",
+      "description": "Converts a picture to 2 × 3 mosaic characters in the 8 Videotex colors.",
+      "files": [
+        {
+          "path": "src/react/Mosaic.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Mosaic.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicDom.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicDom.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    },
+    {
+      "name": "videotex-ui",
+      "type": "registry:ui",
+      "title": "Videotex UI",
+      "description": "All the components at once.",
+      "files": [
+        {
+          "path": "src/react/Screen.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Screen.tsx"
+        },
+        {
+          "path": "src/react/FunctionKeys.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/FunctionKeys.tsx"
+        },
+        {
+          "path": "src/react/Title.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Title.tsx"
+        },
+        {
+          "path": "src/react/StatusRow.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/StatusRow.tsx"
+        },
+        {
+          "path": "src/react/Frame.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Frame.tsx"
+        },
+        {
+          "path": "src/react/InputField.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/InputField.tsx"
+        },
+        {
+          "path": "src/react/Menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Menu.tsx"
+        },
+        {
+          "path": "src/react/Mosaic.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/Mosaic.tsx"
+        },
+        {
+          "path": "src/react/cells.tsx",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cells.tsx"
+        },
+        {
+          "path": "src/react/cx.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/cx.ts"
+        },
+        {
+          "path": "src/react/mosaicDom.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicDom.ts"
+        },
+        {
+          "path": "src/react/mosaicStyle.ts",
+          "type": "registry:ui",
+          "target": "@components/videotex/react/mosaicStyle.ts"
+        },
+        {
+          "path": "src/core/builder.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/builder.ts"
+        },
+        {
+          "path": "src/core/cell.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/cell.ts"
+        },
+        {
+          "path": "src/core/grid.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/grid.ts"
+        },
+        {
+          "path": "src/core/image.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/image.ts"
+        },
+        {
+          "path": "src/core/index.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/index.ts"
+        },
+        {
+          "path": "src/core/keys.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/keys.ts"
+        },
+        {
+          "path": "src/core/mosaic.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/mosaic.ts"
+        },
+        {
+          "path": "src/core/page.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/page.ts"
+        },
+        {
+          "path": "src/core/palette.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/palette.ts"
+        },
+        {
+          "path": "src/core/regions.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/regions.ts"
+        },
+        {
+          "path": "src/core/reveal.ts",
+          "type": "registry:lib",
+          "target": "@components/videotex/core/reveal.ts"
+        },
+        {
+          "path": "src/styles/videotex.css",
+          "type": "registry:file",
+          "target": "@components/videotex/videotex.css"
+        }
+      ],
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+    }
+  ]
+}

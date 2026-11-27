@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type HTMLAttributes } from 'react';
 import { PageBuilder } from '../core/builder';
 import { BLANK_CELL, type Cell } from '../core/cell';

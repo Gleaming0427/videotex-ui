@@ -177,7 +177,7 @@ export function imageToMosaic(image: RgbaImage, options: ConvertOptions): Mosaic
       for (let sx = 0; sx < sixelsWide; sx++) {
         const nudge = ((BAYER_4[sy & 3]![sx & 3]! + 0.5) / 16 - 0.5) * gap;
         const o = (sy * sixelsWide + sx) * 3;
-        for (let k = 0; k < 3; k++) sixels[o + k] += nudge;
+        for (let k = 0; k < 3; k++) sixels[o + k] = sixels[o + k]! + nudge;
       }
     }
   }

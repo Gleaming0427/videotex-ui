@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState, type HTMLAttributes } from 'react';
 import {
   FUNCTION_KEY_LABELS,

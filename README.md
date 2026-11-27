@@ -2,16 +2,42 @@
 
 A React UI kit inspired by French Videotex: 40 × 25 grid, mosaic graphics, 8 colors, function keys.
 
-> Work in progress, private repository. Nothing is published on npm yet.
+> Version 0.1.0 is ready but not published yet: the install commands below work once it is on npm.
 
-## Getting started
+## Install
+
+### With npm
 
 ```bash
-npm install
-npm run dev        # demo on http://localhost:5173
-npm test           # tests
-npm run build      # library in dist/
+npm install videotex-ui
 ```
+
+```tsx
+import { Screen, PageBuilder } from 'videotex-ui';
+import 'videotex-ui/styles.css';
+```
+
+### With the shadcn CLI
+
+The CLI copies the source of a component into your project, in `components/videotex/`, with the core and the stylesheet:
+
+```bash
+npx shadcn@latest add https://cdn.jsdelivr.net/npm/videotex-ui/r/screen.json
+```
+
+Then import the stylesheet once, for example in your root layout, and the components from that folder:
+
+```tsx
+import '@/components/videotex/videotex.css';
+import { Screen } from '@/components/videotex/react/Screen';
+import { PageBuilder } from '@/components/videotex/core';
+```
+
+Items: `screen`, `function-keys`, `title`, `status-row`, `frame`, `input-field`, `menu`, `mosaic`, and `videotex-ui` for all of them. Every item brings the core and the stylesheet; the CLI skips the files you already have. To pin a version, write it in the address: `videotex-ui@0.1.0/r/screen.json`.
+
+### React Server Components
+
+The components are client components (`'use client'`). The core (`PageBuilder`, palettes, mosaics…) has no React code, so a server component can build a page and pass it to `Screen`.
 
 ## Usage
 
@@ -165,6 +191,19 @@ Default shortcuts:
 | Repeat | End | | Send | Enter |
 
 Shortcuts are off by default because they listen on the whole window and take over keys such as Enter or Page Down. When on, they ignore text fields, key repeats and combinations with Ctrl, Alt or Meta, and leave Enter and Space to a focused button or link.
+
+## Development
+
+```bash
+npm install
+npm run dev              # demo on http://localhost:5173
+npm test                 # tests
+npm run build            # library in dist/
+npm run registry         # rewrites registry.json after a source file is added or moved
+npm run registry:build   # shadcn registry in r/
+```
+
+`npm pack` and `npm publish` build the library and the registry first. Changes go in [CHANGELOG.md](CHANGELOG.md).
 
 ## Roadmap
 

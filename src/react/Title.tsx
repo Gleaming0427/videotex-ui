@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo, type HTMLAttributes } from 'react';
 import type { CharSize } from '../core/cell';
 import { toColor, type ColorInput } from '../core/palette';
