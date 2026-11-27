@@ -5,8 +5,9 @@ import type { VtxColor } from './palette';
 export type CharSet = 'G0' | 'G1';
 
 /**
- * Double height grows upwards: the character sits on the cursor row and covers the row above.
- * Double width covers the next column. Double size does both. (To check against the STUM.)
+ * Double height grows upwards: the character sits on the cursor row and covers the row above
+ * (drawn "from the bottom", STUM 1B, part 2, ch. 2, §1.2.4.2). Double width covers the next column.
+ * Double size does both.
  */
 export type CharSize = 'normal' | 'double-height' | 'double-width' | 'double-size';
 

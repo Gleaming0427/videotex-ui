@@ -34,7 +34,7 @@ const HANDLER_PROPS: Readonly<Record<FunctionKeyName, keyof KeyHandlers>> = {
 export interface FunctionKeysProps extends KeyHandlers, Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Called for every key, before the key's own handler. */
   onKey?: (key: FunctionKeyName) => void;
-  /** 'faithful': two columns of four, like the Minitel. 'compact': one wrapping row. Default: 'faithful'. */
+  /** 'faithful': two rows of four, like the Minitel 1B. 'compact': one wrapping row. Default: 'faithful'. */
   layout?: 'faithful' | 'compact';
   /** 'en' (default), 'fr' for the labels printed on the Minitel, or your own labels. */
   labels?: 'en' | 'fr' | Partial<Record<FunctionKeyName, string>>;

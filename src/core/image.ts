@@ -169,10 +169,10 @@ export function imageToMosaic(image: RgbaImage, options: ConvertOptions): Mosaic
   }
 
   if (dither) {
-    // Nudge every sixel up or down by up to a quarter of the gap between two palette levels
-    // (a full channel for the color palette, one grey step for the monochrome one): mid tones mix,
-    // dark and light areas stay clean.
-    const gap = (palette === 'monochrome' ? 255 / 7 : 255) * 0.5;
+    // Nudge every sixel up or down: by up to a quarter of a channel for the color palette, so mid
+    // tones mix while dark and light areas stay clean; by up to half a grey step (10 %) for the
+    // monochrome one.
+    const gap = palette === 'monochrome' ? 255 * 0.1 : 255 * 0.5;
     for (let sy = 0; sy < rows * 3; sy++) {
       for (let sx = 0; sx < sixelsWide; sx++) {
         const nudge = ((BAYER_4[sy & 3]![sx & 3]! + 0.5) / 16 - 0.5) * gap;

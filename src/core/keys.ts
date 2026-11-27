@@ -1,7 +1,11 @@
 // The 8 Minitel function keys: names, labels and keyboard shortcuts.
 
-/** Keys in layout order: two columns, read row by row (layout to check against the STUM). */
-export const FUNCTION_KEYS = ['index', 'guide', 'cancel', 'correction', 'back', 'next', 'repeat', 'send'] as const;
+/**
+ * Keys in layout order: two rows of four, read row by row. The STUM 1B photos (part 1, ch. 4) show
+ * this block on every Minitel 1B keyboard, with Sommaire and Annulation first on the top row and the
+ * green Envoi last on the bottom row; the other positions are not legible there.
+ */
+export const FUNCTION_KEYS = ['index', 'cancel', 'back', 'repeat', 'guide', 'correction', 'next', 'send'] as const;
 
 export type FunctionKeyName = (typeof FUNCTION_KEYS)[number];
 
@@ -29,6 +33,24 @@ export const FUNCTION_KEY_LABELS: Readonly<{ en: FunctionKeyLabels; fr: Function
     repeat: 'Répétition',
     send: 'Envoi',
   }),
+});
+
+/** Control code sent before a function key code. */
+export const SEP = 0x13;
+
+/**
+ * Byte sent after SEP by each key in Videotex mode (STUM 1B, part 2, ch. 3, §6).
+ * Connexion/Fin (0x49) goes to the modem and is not one of the 8 keys.
+ */
+export const FUNCTION_KEY_CODES: Readonly<Record<FunctionKeyName, number>> = Object.freeze({
+  send: 0x41,
+  back: 0x42,
+  repeat: 0x43,
+  guide: 0x44,
+  cancel: 0x45,
+  index: 0x46,
+  correction: 0x47,
+  next: 0x48,
 });
 
 /** A `KeyboardEvent.key` value per function key. Shift is allowed (for '?'); Ctrl, Alt and Meta are not. */

@@ -151,7 +151,7 @@ The 8 Minitel function keys, as real buttons.
 | --- | --- | --- |
 | `onKey(name)` | | Called for every key, before the key's own handler |
 | `onIndex`, `onGuide`, `onCancel`, `onCorrection`, `onBack`, `onNext`, `onRepeat`, `onSend` | | One handler per key |
-| `layout` | `'faithful'` | `'faithful'`: two columns of four, like the Minitel; `'compact'`: one wrapping row |
+| `layout` | `'faithful'` | `'faithful'`: two rows of four, like the Minitel 1B; `'compact'`: one wrapping row |
 | `labels` | `'en'` | `'en'`, `'fr'` (the labels printed on the Minitel: Sommaire, Envoi…) or your own labels |
 | `shortcuts` | `false` | `true` for the default shortcuts, or an object to change some of them (`null` removes one) |
 

@@ -68,18 +68,15 @@ body {
 
 .demo-status { color: var(--demo-muted); }
 
+/* The keys sit under the screen, as on a Minitel. */
 .demo-terminal {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 20px;
 }
 
-/* Beside the keys the screen needs about 1,100 px to reach a scale of 2; below that, stack them. */
-@media (max-width: 1100px) {
-  .demo-terminal { grid-template-columns: minmax(0, 1fr); justify-items: center; }
-  .demo-terminal .vtx-screen { width: 100%; }
-}
+.demo-terminal .vtx-screen { width: 100%; }
 
 .demo-shortcuts {
   display: flex;

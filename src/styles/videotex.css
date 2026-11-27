@@ -10,7 +10,8 @@
   --vtx-font-stretch: 1.4;
   --vtx-cell-w: calc(var(--vtx-px, 2px) * 8);
   --vtx-cell-h: calc(var(--vtx-px, 2px) * 10);
-  --vtx-blink-period: 1s;
+  /* About 0.5 Hz (STUM 1B, part 2, ch. 2, §1.1.2). */
+  --vtx-blink-period: 2s;
   display: block;
   margin: 0;
   min-width: 0;
@@ -31,12 +32,12 @@
 
 .vtx-palette-monochrome {
   --vtx-c0: #000000;
-  --vtx-c1: #494949;
-  --vtx-c2: #929292;
-  --vtx-c3: #dbdbdb;
-  --vtx-c4: #242424;
-  --vtx-c5: #6d6d6d;
-  --vtx-c6: #b6b6b6;
+  --vtx-c1: #808080;
+  --vtx-c2: #b3b3b3;
+  --vtx-c3: #e6e6e6;
+  --vtx-c4: #666666;
+  --vtx-c5: #999999;
+  --vtx-c6: #cccccc;
   --vtx-c7: #ffffff;
 }
 
@@ -252,9 +253,18 @@
   gap: 10px;
 }
 
+/* Two rows of four, as on the Minitel 1B keyboard. */
 .vtx-keys-faithful {
   display: inline-grid;
-  grid-template-columns: repeat(2, minmax(8.5em, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 9em));
+}
+
+@media (max-width: 420px) {
+  .vtx-keys-faithful .vtx-key {
+    padding-inline: 0.3em;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
 }
 
 .vtx-keys-compact {

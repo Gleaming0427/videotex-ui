@@ -1,19 +1,19 @@
-// Geometry of a Videotex screen. Values marked "to check" are verified in step 1 (STUM).
+// Geometry of a Videotex screen, from the STUM 1B (Minitel 1B technical specification, 1986).
 
-/** Number of columns. */
+/** Number of columns (STUM 1B, part 1, ch. 3, §2.2.1). */
 export const COLS = 40;
 /** Number of rows, including the service row. */
 export const ROWS = 25;
-/** Row 0 is the service (status) row of a Minitel; it never wraps and only takes normal-size text. */
+/** Row 0 is the service row, kept for network messages; it never wraps (STUM 1B, part 1, ch. 3, §2.2.1). */
 export const SERVICE_ROW = 0;
 /** First row of page content. */
 export const FIRST_PAGE_ROW = 1;
 /** Last row of page content. */
 export const LAST_ROW = ROWS - 1;
 
-/** Width of a character cell, in screen dots (to check). */
+/** Width of a character cell, in screen dots (STUM 1B, part 1, ch. 3, §2.2.2). */
 export const CELL_WIDTH = 8;
-/** Height of a character cell, in screen dots (to check). */
+/** Height of a character cell, in screen dots (STUM 1B, part 1, ch. 3, §2.2.2). */
 export const CELL_HEIGHT = 10;
 /** Screen size in dots: 320 × 250. */
 export const SCREEN_WIDTH = COLS * CELL_WIDTH;

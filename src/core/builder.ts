@@ -54,13 +54,15 @@ function resolve(base: Attributes, input: AttributesInput = {}): Attributes {
  *   .build();
  * ```
  *
- * Writing rules:
+ * Writing rules, after the STUM 1B (part 2, ch. 2) unless noted:
  * - the cursor starts at row 1, column 0;
- * - a line that reaches column 40 wraps to column 0 of the next row, except row 0 which is cut;
- * - `\n` goes to the next row, at the column of the last `moveTo` (the margin);
- * - anything written past row 24 is dropped;
+ * - a line that reaches column 40 wraps to column 0 of the next row;
+ * - on row 0, every character after the 40th is shown in column 40;
+ * - double height and double size are ignored on rows 0 and 1; double width in column 40 is drawn
+ *   at normal width;
  * - mosaics ignore size and inversion; their underline means disjoint mosaic;
- * - double height is refused on rows 0 and 1, which have no page row above them.
+ * - `\n` goes to the next row, at the column of the last `moveTo` (the margin) (our choice);
+ * - anything written past row 24 is dropped (our choice: in page mode a Minitel goes on at row 1).
  */
 export class PageBuilder {
   readonly #cells: Cell[][];
@@ -123,7 +125,7 @@ export class PageBuilder {
     const current = resolve(this.#attrs, attrs);
     for (const mask of typeof masks === 'number' ? [masks] : masks) {
       assertSixelMask(mask);
-      if (!this.#makeRoom(1)) continue;
+      if (!this.#makeRoom()) continue;
       this.#write(this.#row, this.#col, {
         set: 'G1',
         char: ' ',
@@ -190,23 +192,28 @@ export class PageBuilder {
     this.#col = this.#margin;
   }
 
-  /** Wraps if `width` columns don't fit. Returns false when the character must be dropped. */
-  #makeRoom(width: number): boolean {
+  /** Wraps when the row is full. Returns false when the character must be dropped. */
+  #makeRoom(): boolean {
     if (this.#row > LAST_ROW) return false;
-    if (this.#col + width <= COLS) return true;
-    if (this.#row === SERVICE_ROW) return false;
+    if (this.#col < COLS) return true;
+    if (this.#row === SERVICE_ROW) {
+      this.#col = COLS - 1;
+      return true;
+    }
     this.#row += 1;
     this.#col = 0;
     return this.#row <= LAST_ROW;
   }
 
   #putChar(ch: string, attrs: Attributes): void {
-    const span = sizeSpan(attrs.size);
-    const width = this.#row === SERVICE_ROW ? 1 : span.width;
-    if (!this.#makeRoom(width)) return;
-    const height = this.#row - 1 < FIRST_PAGE_ROW ? 1 : span.height;
+    if (!this.#makeRoom()) return;
     const row = this.#row;
     const col = this.#col;
+    const span = sizeSpan(attrs.size);
+    // Rows 0 and 1 ignore the whole double height or double size; column 40 has no room for double width.
+    const tallRefused = span.height === 2 && row <= FIRST_PAGE_ROW;
+    const height = tallRefused ? 1 : span.height;
+    const width = tallRefused || col === COLS - 1 ? 1 : span.width;
     const cell: Cell = {
       set: 'G0',
       char: ch,
