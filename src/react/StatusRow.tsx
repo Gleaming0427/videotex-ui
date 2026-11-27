@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo, type HTMLAttributes } from 'react';
 import { toColor, type ColorInput } from '../core/palette';
 import { statusRegion } from '../core/regions';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import { toColor, type ColorInput } from '../core/palette';
 import { menuItemRegion } from '../core/regions';

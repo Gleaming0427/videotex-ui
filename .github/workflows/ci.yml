@@ -19,3 +19,5 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run build:demo
+      - run: npm run registry:check
+      - run: npm run registry:build

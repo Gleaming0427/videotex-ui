@@ -1,3 +1,5 @@
+'use client';
+
 // Cell rendering shared by Screen and by the components placed on it.
 import { createContext, memo, useContext, type CSSProperties, type ReactElement } from 'react';
 import { displayedColors, type Cell } from '../core/cell';
