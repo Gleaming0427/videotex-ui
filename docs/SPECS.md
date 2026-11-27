@@ -19,7 +19,9 @@ Status: **single source** = one source cited in the project sheet; **to check** 
 | Attributes on mosaics | No size, no inverse; blinking applies | `builder.ts` | To check |
 | Accents | No accented capitals | (demo) | To check |
 | Speed | 1,200 baud, 10 bits per character, so 120 characters per second | `reveal.ts` | To check |
-| Function keys | Répétition, Suite, Sommaire, Guide, Annulation, Retour, Correction, Envoi | (step 5) | Single source (1986 DGT brochure) |
+| Function keys | Répétition, Suite, Sommaire, Guide, Annulation, Retour, Correction, Envoi | `keys.ts` | Single source (1986 DGT brochure) |
+| Key layout | Two columns of four: Sommaire / Guide, Annulation / Correction, Retour / Suite, Répétition / Envoi | `keys.ts` | To check |
+| Keyboard shortcuts | Our own choice (Enter for Envoi, Escape for Annulation…), not a Minitel standard | `keys.ts` | Design choice |
 
 ## Known simplifications
 

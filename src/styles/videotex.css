@@ -188,3 +188,67 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* FunctionKeys */
+
+.vtx-keys {
+  --vtx-key-bg: #2e2f33;
+  --vtx-key-bg-top: #3a3b40;
+  --vtx-key-fg: #ece8dc;
+  --vtx-key-edge: #111214;
+  --vtx-key-send-bg: #2f5d3a;
+  --vtx-key-send-bg-top: #3a7147;
+  --vtx-key-focus: #ffd400;
+  gap: 10px;
+}
+
+.vtx-keys-faithful {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(8.5em, 1fr));
+}
+
+.vtx-keys-compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vtx-key {
+  appearance: none;
+  min-height: 44px;
+  padding: 0.6em 1em;
+  border: 1px solid var(--vtx-key-edge);
+  border-radius: 6px;
+  background: linear-gradient(var(--vtx-key-bg-top), var(--vtx-key-bg));
+  box-shadow: 0 3px 0 var(--vtx-key-edge);
+  color: var(--vtx-key-fg);
+  font: 600 12px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 60ms, box-shadow 60ms;
+}
+
+.vtx-keys-compact .vtx-key {
+  min-height: 40px;
+  padding: 0.45em 0.8em;
+}
+
+.vtx-key[data-key="send"] {
+  background: linear-gradient(var(--vtx-key-send-bg-top), var(--vtx-key-send-bg));
+}
+
+.vtx-key:active,
+.vtx-key[data-pressed] {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vtx-key-edge);
+}
+
+.vtx-key:focus-visible {
+  outline: 2px solid var(--vtx-key-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vtx-key { transition: none; }
+}

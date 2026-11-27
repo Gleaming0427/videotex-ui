@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { PageBuilder } from '../src/core/builder';
 import { SIXEL_FULL } from '../src/core/mosaic';
@@ -66,8 +66,30 @@ describe('Screen', () => {
     expect(container.querySelector('.vtx-screen')!.className).toContain('vtx-revealing');
     const delays = [...container.querySelectorAll<HTMLElement>('.vtx-cell')].map((c) => parseFloat(c.style.animationDelay));
     expect(Math.max(...delays)).toBeGreaterThan(0);
-    vi.advanceTimersByTime(Math.max(...delays) + 1);
+    act(() => vi.advanceTimersByTime(Math.max(...delays) + 1));
     expect(onRevealEnd).toHaveBeenCalledOnce();
+    expect(container.querySelector('.vtx-screen')!.className).not.toContain('vtx-revealing');
+    vi.useRealTimers();
+  });
+
+  it('redraws a new page object, unless revealKey stays the same', () => {
+    vi.useFakeTimers();
+    const other = new PageBuilder().print('OTHER').build();
+    const isRevealing = (c: HTMLElement) => c.querySelector('.vtx-screen')!.className.includes('vtx-revealing');
+
+    const plain = render(<Screen page={page} baud={1200} />);
+    act(() => vi.advanceTimersByTime(20_000));
+    plain.rerender(<Screen page={other} baud={1200} />);
+    expect(isRevealing(plain.container)).toBe(true);
+    plain.unmount();
+
+    const keyed = render(<Screen page={page} baud={1200} revealKey="home" />);
+    act(() => vi.advanceTimersByTime(20_000));
+    keyed.rerender(<Screen page={other} baud={1200} revealKey="home" />);
+    expect(isRevealing(keyed.container)).toBe(false);
+    expect(keyed.getByText('OTHER')).toBeTruthy();
+    keyed.rerender(<Screen page={other} baud={1200} revealKey="next" />);
+    expect(isRevealing(keyed.container)).toBe(true);
     vi.useRealTimers();
   });
 });

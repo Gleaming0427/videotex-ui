@@ -5,3 +5,4 @@ export * from './cell';
 export * from './page';
 export * from './builder';
 export * from './reveal';
+export * from './keys';

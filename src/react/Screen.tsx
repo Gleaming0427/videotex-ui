@@ -28,6 +28,11 @@ export interface ScreenProps extends Omit<HTMLAttributes<HTMLElement>, 'children
   /** Draws the page progressively at this speed, like a Minitel line (1200 is typical). Default: false. */
   baud?: number | false;
   /**
+   * What starts a progressive display. Without it, every new `page` object is drawn again.
+   * With it, only a new key is; other page changes show at once (a typed character, a message).
+   */
+  revealKey?: string | number;
+  /**
    * Size of one screen dot, in CSS pixels. 'auto' (default) picks the largest whole number that fits
    * the available width, so the screen stays sharp; below 320 px it shrinks to fit.
    */
@@ -120,6 +125,7 @@ export function Screen({
   palette = 'color',
   crt = false,
   baud = false,
+  revealKey,
   scale = 'auto',
   blink = true,
   onRevealEnd,
@@ -133,18 +139,33 @@ export function Screen({
   const autoScale = useAutoScale(rootRef, scale === 'auto', SCREEN_WIDTH + 2 * border);
   const dot = scale === 'auto' ? autoScale : scale;
 
-  const schedule = useMemo(() => (baud ? revealSchedule(page, baud) : null), [page, baud]);
+  // One token per progressive display. Once it has played, the page updates without animation.
+  const token = baud ? `${revealKey === undefined ? `page:${pageId(page)}` : `key:${String(revealKey)}`}@${baud}` : null;
+  const [finished, setFinished] = useState<string | null>(null);
+  const revealing = token !== null && finished !== token;
+  const schedule = useMemo(
+    () => (revealing && baud ? revealSchedule(page, baud) : null),
+    [page, baud, revealing],
+  );
   const lines = useMemo(() => pageToPlainText(page), [page]);
 
   const onRevealEndRef = useRef(onRevealEnd);
+  const durationRef = useRef(0);
   useEffect(() => {
     onRevealEndRef.current = onRevealEnd;
+    durationRef.current = schedule?.duration ?? 0;
   });
   useEffect(() => {
-    if (!schedule) return;
-    const timer = setTimeout(() => onRevealEndRef.current?.(), prefersReducedMotion() ? 0 : schedule.duration);
+    if (!revealing || token === null) return;
+    const timer = setTimeout(
+      () => {
+        setFinished(token);
+        onRevealEndRef.current?.();
+      },
+      prefersReducedMotion() ? 0 : durationRef.current,
+    );
     return () => clearTimeout(timer);
-  }, [schedule]);
+  }, [token, revealing]);
 
   const cells = useMemo(
     () =>
@@ -175,8 +196,8 @@ export function Screen({
       {...rest}
     >
       <div className="vtx-display" aria-hidden="true">
-        {/* A new key restarts the reveal animations when the page or the speed changes. */}
-        <div className="vtx-grid" key={schedule ? `${pageId(page)}@${baud}` : 'static'}>
+        {/* A new token remounts the grid, which restarts the reveal animations. */}
+        <div className="vtx-grid" key={token ?? 'static'}>
           {cells}
         </div>
       </div>
