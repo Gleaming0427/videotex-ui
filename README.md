@@ -21,6 +21,8 @@ import { Screen, PageBuilder } from 'videotex-ui';
 import 'videotex-ui/styles.css';
 ```
 
+The package is made of ES modules only: use `import`, not `require()`. Its types work with every TypeScript `moduleResolution` (`bundler`, `node16`, `nodenext`).
+
 ### With the shadcn CLI
 
 The CLI copies the source of a component into your project, in `components/videotex/`, with the core and the stylesheet:
@@ -205,10 +207,11 @@ npm test                 # tests
 npm run build            # library in dist/
 npm run registry         # rewrites registry.json after a source file is added or moved
 npm run registry:build   # shadcn registry in r/
+npm run check:package    # packs the package and tries it in a throwaway project (types, Node)
 npm run record           # GIF and screenshots in docs/media/ (needs Google Chrome and ffmpeg)
 ```
 
-`npm pack` and `npm publish` build the library and the registry first. The demo is published on GitHub Pages after every change on `main`. Changes go in [CHANGELOG.md](CHANGELOG.md).
+`npm pack` and `npm publish` build the library and the registry first; `npm publish` also runs the typecheck, the tests and `check:package`, and stops if one fails. The demo is published on GitHub Pages after every change on `main`. Changes go in [CHANGELOG.md](CHANGELOG.md).
 
 ## Roadmap
 

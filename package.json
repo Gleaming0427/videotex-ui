@@ -36,7 +36,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/videotex-ui.js"
     },
-    "./styles.css": "./dist/videotex-ui.css",
+    "./styles.css": {
+      "types": "./dist/videotex-ui.css.d.ts",
+      "default": "./dist/videotex-ui.css"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": [
@@ -44,7 +47,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build -c vite.lib.config.ts && tsc -p tsconfig.build.json",
+    "build": "vite build -c vite.lib.config.ts && tsc -p tsconfig.build.json && node scripts/types.mjs",
     "build:demo": "vite build",
     "record": "npm run build:demo && node scripts/record-demo.mjs",
     "preview": "vite preview",
@@ -54,8 +57,9 @@
     "registry": "node scripts/registry.mjs",
     "registry:check": "node scripts/registry.mjs --check",
     "registry:build": "shadcn build registry.json --output r",
+    "check:package": "node scripts/check-package.mjs",
     "prepack": "npm run build && npm run registry:check && npm run registry:build",
-    "prepublishOnly": "npm run typecheck && npm test"
+    "prepublishOnly": "npm run typecheck && npm test && npm run check:package"
   },
   "peerDependencies": {
     "react": ">=18",
