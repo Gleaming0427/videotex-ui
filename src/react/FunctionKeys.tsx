@@ -53,6 +53,13 @@ function isEditable(target: EventTarget | null): boolean {
   return target.isContentEditable || target.closest('input, textarea, select') !== null;
 }
 
+/** Keys that do not edit a one-line field, so they still work as function keys inside an InputField. */
+const FIELD_KEYS = new Set(['Enter', 'Escape', 'PageUp', 'PageDown', 'ArrowUp', 'ArrowDown']);
+
+function isVideotexField(target: EventTarget | null): boolean {
+  return target instanceof Element && target.closest('[data-vtx-field]') !== null;
+}
+
 /** Elements that already act on Enter or Space themselves. */
 function handlesActivation(target: EventTarget | null): boolean {
   return target instanceof Element && target.closest('button, a[href], summary, [role="button"], [role="link"]') !== null;
@@ -97,7 +104,8 @@ export function FunctionKeys({
     if (!enabled) return;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const listener = (event: KeyboardEvent) => {
-      if (event.defaultPrevented || event.repeat || isEditable(event.target)) return;
+      if (event.defaultPrevented || event.repeat) return;
+      if (isEditable(event.target) && !(isVideotexField(event.target) && FIELD_KEYS.has(event.key))) return;
       const name = keyFromEvent(event, latest.current.keyMap);
       if (!name) return;
       if ((event.key === 'Enter' || event.key === ' ') && handlesActivation(event.target)) return;

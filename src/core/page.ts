@@ -17,6 +17,29 @@ export function cellAt(page: Page, row: number, col: number): Cell {
   return page.cells[row]![col]!;
 }
 
+/**
+ * A rectangle of cells, row by row, clipped to the screen.
+ * Cells for which `keep` returns false are null, so what is under them shows through.
+ */
+export function cropPage(
+  page: Page,
+  top: number,
+  left: number,
+  height: number,
+  width: number,
+  keep: (row: number, col: number) => boolean = () => true,
+): (Cell | null)[][] {
+  const rows: (Cell | null)[][] = [];
+  for (let row = Math.max(0, top); row < Math.min(ROWS, top + height); row++) {
+    const line: (Cell | null)[] = [];
+    for (let col = Math.max(0, left); col < Math.min(COLS, left + width); col++) {
+      line.push(keep(row, col) ? page.cells[row]![col]! : null);
+    }
+    rows.push(line);
+  }
+  return rows;
+}
+
 export interface PageToTextOptions {
   /** How to write mosaic cells: spaces (default) or Unicode block sextants. */
   readonly mosaic?: 'space' | 'unicode';

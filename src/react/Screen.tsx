@@ -1,5 +1,4 @@
 import {
-  memo,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -7,20 +6,24 @@ import {
   useState,
   type CSSProperties,
   type HTMLAttributes,
-  type ReactElement,
+  type ReactNode,
   type RefObject,
 } from 'react';
-import { displayedColors, type Cell } from '../core/cell';
 import { COLS, SCREEN_WIDTH } from '../core/grid';
 import { pageToPlainText, type Page } from '../core/page';
 import type { PaletteName } from '../core/palette';
 import { revealSchedule } from '../core/reveal';
+import { CellView, ScreenContext } from './cells';
 import { cx } from './cx';
-import { mosaicStyle } from './mosaicStyle';
 
-export interface ScreenProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
+export interface ScreenProps extends HTMLAttributes<HTMLElement> {
   /** The page to show, usually made with `PageBuilder`. */
   page: Page;
+  /**
+   * Components placed on the grid, such as `Title`, `Menu` or `InputField` with `row` and `col`.
+   * They are hidden while the page is drawn progressively.
+   */
+  children?: ReactNode;
   /** Color Minitel or monochrome Minitel (8 greys). Default: 'color'. */
   palette?: PaletteName;
   /** Scanlines, vignette, glow and a dark border. Default: false. */
@@ -84,36 +87,6 @@ function useAutoScale(ref: RefObject<HTMLElement | null>, enabled: boolean, dots
   return scale;
 }
 
-const CellView = memo(function CellView({ cell, delay }: { cell: Cell; delay: number | undefined }) {
-  const { fg, bg } = displayedColors(cell);
-  const style = delay === undefined ? undefined : { animationDelay: `${delay}ms` };
-  const anchor = !cell.covered && cell.size !== 'normal';
-  let glyph: ReactElement | null = null;
-
-  if (!cell.covered) {
-    const blink = cell.blink && 'vtx-blink';
-    if (cell.set === 'G1') {
-      if (cell.mask !== 0) {
-        glyph = <span className={cx('vtx-glyph', `vtx-fg-${fg}`, blink)} style={mosaicStyle(cell.mask, cell.underline)} />;
-      }
-    } else if (cell.char !== ' ' || cell.underline) {
-      glyph = (
-        <span
-          className={cx('vtx-glyph', `vtx-fg-${fg}`, blink, cell.underline && 'vtx-underline', anchor && `vtx-${cell.size}`)}
-        >
-          <span className="vtx-char">{cell.char}</span>
-        </span>
-      );
-    }
-  }
-
-  return (
-    <span className={cx('vtx-cell', `vtx-bg-${bg}`, anchor && 'vtx-anchor')} style={style}>
-      {glyph}
-    </span>
-  );
-});
-
 /**
  * A 40 × 25 Videotex screen.
  *
@@ -129,6 +102,7 @@ export function Screen({
   scale = 'auto',
   blink = true,
   onRevealEnd,
+  children,
   className,
   style,
   'aria-label': ariaLabel = 'Videotex screen',
@@ -179,6 +153,7 @@ export function Screen({
   );
 
   const vars = { '--vtx-px': `${dot}px`, '--vtx-border': border } as CSSProperties;
+  const context = useMemo(() => ({ revealing: schedule !== null }), [schedule]);
 
   return (
     <figure
@@ -195,16 +170,21 @@ export function Screen({
       aria-label={ariaLabel}
       {...rest}
     >
-      <div className="vtx-display" aria-hidden="true">
-        {/* A new token remounts the grid, which restarts the reveal animations. */}
-        <div className="vtx-grid" key={token ?? 'static'}>
-          {cells}
-        </div>
-      </div>
       <div className="vtx-sr-only">
         {lines.map((line, i) => (
           <p key={i}>{line}</p>
         ))}
+      </div>
+      <div className="vtx-display">
+        {/* A new token remounts the grid, which restarts the reveal animations. */}
+        <div className="vtx-grid" key={token ?? 'static'} aria-hidden="true">
+          {cells}
+        </div>
+        {children !== undefined && (
+          <div className="vtx-layer">
+            <ScreenContext.Provider value={context}>{children}</ScreenContext.Provider>
+          </div>
+        )}
       </div>
     </figure>
   );

@@ -104,3 +104,45 @@ kbd {
   font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace;
   text-align: center;
 }
+
+.demo-modern {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--demo-line);
+}
+
+.demo-modern h2 { margin: 0; font-size: 22px; }
+.demo-note { margin: 4px 0 20px; color: var(--demo-muted); }
+
+.demo-modern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.demo-modern-grid > .vtx-status,
+.demo-modern-grid > .vtx-title { grid-column: 1 / -1; }
+
+.demo-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+}
+
+.demo-label {
+  display: grid;
+  gap: 4px;
+}
+
+.demo-submit {
+  padding: 2px 12px;
+  border: 0;
+  background: var(--vtx-c2);
+  color: var(--vtx-c0);
+  font: inherit;
+  cursor: pointer;
+}
+
+.demo-submit:focus-visible { outline: 2px solid var(--vtx-c3); outline-offset: 2px; }

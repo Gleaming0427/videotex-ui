@@ -17,6 +17,7 @@
 }
 
 /* Palettes. Keep in sync with COLOR_RGB and GREY_RGB in src/core/palette.ts (checked by a test). */
+:root,
 .vtx-palette-color {
   --vtx-c0: #000000;
   --vtx-c1: #ff0000;
@@ -175,6 +176,55 @@
   }
 }
 
+/* Layer for components placed on the screen (Screen children) */
+
+.vtx-layer {
+  position: absolute;
+  inset: calc(var(--vtx-px) * var(--vtx-border, 0));
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(40, var(--vtx-cell-w));
+  grid-template-rows: repeat(25, var(--vtx-cell-h));
+  pointer-events: none;
+}
+
+.vtx-layer > * { pointer-events: auto; }
+.vtx-revealing .vtx-layer { visibility: hidden; }
+
+/* A full-screen subgrid: its children keep screen coordinates (Menu, Frame). */
+.vtx-layer .vtx-sublayer {
+  grid-area: 1 / 1 / -1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  pointer-events: none;
+}
+
+.vtx-sublayer > * { pointer-events: auto; }
+
+.vtx-layer :where(h1, h2, h3, h4, h5, h6, p, ol, ul, li, section) {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  list-style: none;
+}
+
+.vtx-layer :where(button, input) {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.vtx-layer :focus-visible { outline: var(--vtx-px) solid var(--vtx-c3); outline-offset: var(--vtx-px); }
+
+.vtx-cells { position: relative; display: grid; }
+
 /* Text for screen readers */
 
 .vtx-sr-only {
@@ -251,4 +301,114 @@
 
 @media (prefers-reduced-motion: reduce) {
   .vtx-key { transition: none; }
+}
+
+/* InputField on a screen: cells drawn under a transparent native input */
+
+.vtx-field-on-screen { position: relative; display: block; }
+
+.vtx-layer .vtx-field-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: text;
+}
+
+.vtx-field-on-screen:focus-within { outline: var(--vtx-px) solid var(--vtx-c3); outline-offset: var(--vtx-px); }
+
+/* Components used on their own, outside a Screen.
+   :where() keeps these defaults below the vtx-fg-* and vtx-bg-* color classes. */
+
+:where(.vtx-ui) {
+  font-family: var(--vtx-font, "VT323", ui-monospace, monospace);
+  font-size: var(--vtx-ui-size, 24px);
+  line-height: 1.2;
+  background-color: var(--vtx-c0);
+  color: var(--vtx-c7);
+}
+
+.vtx-title {
+  margin: 0;
+  padding: 0.1em 0.3em;
+  font-weight: normal;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.vtx-title-double-size,
+.vtx-title-double-height { font-size: calc(var(--vtx-ui-size, 24px) * 2); }
+.vtx-title-double-width { letter-spacing: 0.5em; }
+
+.vtx-status {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.1em 0.5em;
+}
+
+.vtx-field {
+  box-sizing: content-box;
+  width: calc(var(--vtx-field-size, 10) * 1ch);
+  margin: 0;
+  padding: 0.1em 0.3em 0.2em;
+  border: 0;
+  border-radius: 0;
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1.5px);
+  background-position: 0.3em 100%;
+  background-size: 1ch 0.3em;
+  background-repeat: repeat-x;
+  caret-color: currentColor;
+}
+
+.vtx-field:focus-visible { outline: 2px solid var(--vtx-c3); outline-offset: 2px; }
+
+.vtx-menu {
+  display: grid;
+  justify-items: start;
+  gap: 0.2em;
+  margin: 0;
+  padding: 0.3em 0.5em;
+  list-style: none;
+}
+
+.vtx-menu-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.vtx-menu-number { padding: 0 0.35em; }
+.vtx-menu-label { padding: 0 0.2em; }
+
+.vtx-menu-item:hover .vtx-menu-label,
+.vtx-menu-item:focus-visible .vtx-menu-label {
+  background-color: var(--vtx-c7);
+  color: var(--vtx-c0);
+}
+
+.vtx-menu-item:focus-visible { outline: 2px solid var(--vtx-c3); outline-offset: 2px; }
+
+.vtx-frame {
+  margin: 0;
+  padding: 0.9em 1em 1em;
+  border: calc(var(--vtx-ui-size, 24px) / 6) solid var(--vtx-frame-color, var(--vtx-c6));
+}
+
+.vtx-frame-title {
+  display: block;
+  width: fit-content;
+  margin: -1.5em 0 0.4em -0.4em;
+  padding: 0 0.4em;
+  background-color: var(--vtx-frame-color, var(--vtx-c6));
+  color: var(--vtx-c0);
 }
