@@ -20,7 +20,7 @@ describe('Screen', () => {
   it('draws 1000 cells and hides them from assistive technologies', () => {
     const { container } = render(<Screen page={page} scale={2} />);
     expect(container.querySelectorAll('.vtx-cell')).toHaveLength(1000);
-    expect(container.querySelector('.vtx-display')?.getAttribute('aria-hidden')).toBe('true');
+    expect(container.querySelector('.vtx-grid')?.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('exposes the text of the page and an accessible name', () => {

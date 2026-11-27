@@ -6,3 +6,4 @@ export * from './page';
 export * from './builder';
 export * from './reveal';
 export * from './keys';
+export * from './regions';

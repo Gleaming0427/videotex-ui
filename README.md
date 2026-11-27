@@ -60,8 +60,36 @@ Attributes: `fg` and `bg` (0 to 7 or `'black'`, `'red'`, `'green'`, `'yellow'`, 
 | `scale` | `'auto'` | Size of one screen dot in CSS pixels; `'auto'` picks the largest whole number that fits, so pixels stay sharp |
 | `blink` | `true` | Enables blinking |
 | `onRevealEnd` | | Called when the progressive display ends |
+| `children` | | Components placed on the grid (see below) |
 
 Screen readers read the text of the page; the grid itself is hidden from them. `prefers-reduced-motion` turns off blinking, flicker and progressive display.
+
+### Components on the screen, or on their own
+
+`Title`, `StatusRow`, `Menu`, `InputField` and `Frame` work in two ways:
+
+- **On a screen** (faithful mode): as children of `Screen`, placed with `row` and `col`. They are drawn with the same cells as the page, over it, and stay real headings, lists, buttons and inputs for keyboards and screen readers. They appear once a progressive display has ended.
+- **On their own** (modern mode): anywhere in a page, with the Videotex font and colors, following the page layout.
+
+```tsx
+<Screen page={background} baud={1200} revealKey={pageName}>
+  <StatusRow left="MY SERVICE" message={message} right="1/4" />
+  <Title row={3} col={2} bg="blue">WELCOME</Title>
+  <Menu row={18} col={2} items={['News', 'Weather']} onSelect={open} />
+  <InputField row={23} col={15} size={1} type="digits" label="Your choice" value={choice} onChange={setChoice} autoFocus />
+</Screen>
+<FunctionKeys shortcuts onSend={send} />
+```
+
+| Component | Main props | Notes |
+| --- | --- | --- |
+| `Title` | `children`, `level` (2), `size` (`'double-size'`), `fg` (`'yellow'`), `bg`, `blink`, `row`, `col` | A heading. Double heights grow upwards from `row` |
+| `StatusRow` | `left`, `message`, `right`, `fg` (`'cyan'`), `messageFg` (`'yellow'`) | Row 0 on a screen. The message is announced to screen readers |
+| `Menu` | `items`, `onSelect(index)`, `start` (1), `fg`, `numberFg`, `row`, `col`, `spacing` (1) | Arrow keys move, a digit jumps to its item, Enter or a click chooses. The focused item shows in inverse |
+| `InputField` | `label`, `size`, `value` / `defaultValue`, `onChange`, `onSubmit`, `type` (`'text'` or `'digits'`), `autoFocus`, `row`, `col` | On a screen: dots and a blinking cursor over a transparent native input. Enter, Escape, Page Up and Page Down still reach `FunctionKeys` while typing, unless `onSubmit` handles Enter |
+| `Frame` | `title`, `fg` (`'cyan'`), `fill`, `row`, `col`, `height`, `width`, `children` | A mosaic border. On a screen, children keep screen coordinates |
+
+To build your own component for the screen, use `useScreen()` (null when off screen), `gridArea()` and `CellGrid`, with the cell helpers of the core (`titleRegion`, `fieldRegion`, `cropPage`…).
 
 ### `FunctionKeys`
 

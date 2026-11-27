@@ -1,4 +1,5 @@
-// Pages of a fictional Videotex service, and how the function keys move between them.
+// Backgrounds of a fictional Videotex service, and how the function keys move between pages.
+// Titles, the status row, the menu and the input field are components placed on the screen (see App).
 import {
   bitmapToMasks,
   COLOR_NAMES,
@@ -16,6 +17,17 @@ import {
 export const SEQUENCE = ['home', 'components', 'mosaics', 'palette', 'keys'] as const;
 export type PageName = (typeof SEQUENCE)[number] | 'guide';
 
+export const TITLES: Readonly<Record<PageName, string>> = {
+  home: 'VIDEOTEX UI',
+  components: 'COMPONENTS',
+  mosaics: 'MOSAICS',
+  palette: '8-COLOR PALETTE',
+  keys: 'FUNCTION KEYS',
+  guide: 'GUIDE',
+};
+
+export const MENU_ITEMS = ['Components', 'Mosaics', '8-color palette', 'Function keys'];
+
 export interface DemoState {
   readonly page: PageName;
   /** Page to return to when leaving the guide. */
@@ -28,7 +40,10 @@ export interface DemoState {
   readonly replay: number;
 }
 
-export type DemoAction = { readonly type: 'key'; readonly key: FunctionKeyName } | { readonly type: 'digit'; readonly digit: string };
+export type DemoAction =
+  | { readonly type: 'key'; readonly key: FunctionKeyName }
+  | { readonly type: 'input'; readonly value: string }
+  | { readonly type: 'open'; readonly index: number };
 
 export const INITIAL_STATE: DemoState = { page: 'home', from: 'home', choice: '', message: '', replay: 0 };
 
@@ -42,8 +57,12 @@ export function reduce(state: DemoState, action: DemoAction): DemoState {
   });
   const say = (message: string): DemoState => ({ ...state, message });
 
-  if (action.type === 'digit') {
-    return state.page === 'home' ? { ...state, choice: action.digit, message: '' } : state;
+  if (action.type === 'input') {
+    return state.page === 'home' ? { ...state, choice: action.value, message: '' } : state;
+  }
+  if (action.type === 'open') {
+    const target = SEQUENCE[action.index + 1];
+    return target ? go(target) : state;
   }
   const position = SEQUENCE.indexOf(state.page as (typeof SEQUENCE)[number]);
   switch (action.key) {
@@ -71,37 +90,36 @@ export function reduce(state: DemoState, action: DemoAction): DemoState {
   }
 }
 
-export function buildPage(state: DemoState): Page {
-  switch (state.page) {
+/** Text on the right of the service row. */
+export function statusRight(page: PageName): string {
+  const position = SEQUENCE.indexOf(page as (typeof SEQUENCE)[number]);
+  if (page === 'home') return '0.00 F/min';
+  return position > 0 ? `${position}/${SEQUENCE.length - 1}` : '';
+}
+
+export function buildPage(page: PageName): Page {
+  switch (page) {
     case 'home':
-      return homePage(state);
+      return homePage();
     case 'components':
-      return componentsPage(state);
+      return componentsPage();
     case 'mosaics':
-      return mosaicsPage(state);
+      return mosaicsPage();
     case 'palette':
-      return palettePage(state);
+      return palettePage();
     case 'keys':
-      return keysPage(state);
+      return keysPage();
     case 'guide':
-      return guidePage(state);
+      return guidePage();
   }
 }
 
 // Shared parts
 
-function serviceRow(b: PageBuilder, message: string, right: string): void {
-  b.moveTo(0, 1).print('VIDEOTEX-UI', { fg: 'cyan' });
-  if (message) b.moveTo(0, 14).print(message, { fg: 'yellow' });
-  b.moveTo(0, 39 - right.length).print(right, { fg: 'cyan' });
-}
-
-function contentPage(title: string, state: DemoState): PageBuilder {
+/** Blue title band (rows 1 to 3) and the key hints at the bottom. */
+function contentPage(): PageBuilder {
   const b = new PageBuilder();
-  const position = SEQUENCE.indexOf(state.page as (typeof SEQUENCE)[number]);
-  serviceRow(b, state.message, position > 0 ? `${position}/${SEQUENCE.length - 1}` : '');
   b.fill(1, 0, 3, 40, { bg: 'blue' });
-  b.moveTo(3, 2).print(title, { fg: 'yellow', bg: 'blue', size: 'double-height' });
   b.moveTo(22, 0).mosaic(Array(40).fill(0b001100), { fg: 'blue' });
   b.moveTo(23, 2).print(' Next ', { inverse: true }).print(' next page  ', { fg: 'cyan' });
   b.print(' Back ', { inverse: true }).print(' previous', { fg: 'cyan' });
@@ -141,21 +159,13 @@ function drawSunset(b: PageBuilder): void {
   });
 }
 
-function homePage(state: DemoState): Page {
+function homePage(): Page {
   const b = new PageBuilder();
-  serviceRow(b, state.message, '0.00 F/min');
-
   b.fill(1, 0, 4, 40, { bg: 'blue' });
-  b.moveTo(3, 2).print('VIDEOTEX UI', { fg: 'yellow', bg: 'blue', size: 'double-size' });
   b.moveTo(4, 2).print('A UI kit for the web', { bg: 'blue' });
   b.moveTo(2, 32).print('40x25', { fg: 'cyan', bg: 'blue' });
 
   drawSunset(b);
-
-  b.moveTo(16, 2).print('MAIN MENU', { fg: 'cyan', size: 'double-height' });
-  ['Components', 'Mosaics', '8-color palette', 'Function keys'].forEach((label, i) => {
-    b.moveTo(18 + i, 2).print(` ${i + 1} `, { inverse: true }).print(` ${label}`);
-  });
 
   b.moveTo(18, 30);
   COLOR_NAMES.forEach((name, i) => {
@@ -164,10 +174,9 @@ function homePage(state: DemoState): Page {
   });
   b.moveTo(19, 30).mosaic(Array(8).fill(0b001111), { fg: 'white', underline: true });
 
-  // The input field: an underlined cell, blinking while empty, like the Minitel cursor.
+  // The input field itself sits at column 15 (InputField).
   b.moveTo(23, 2).print('Your choice: ');
-  b.print(state.choice || ' ', { underline: true, blink: state.choice === '' });
-  b.print('  then ').print(' Send ', { inverse: true, fg: 'green' });
+  b.moveTo(23, 16).print('  then ').print(' Send ', { inverse: true, fg: 'green' });
 
   b.moveTo(24, 2).print(' Guide ', { inverse: true }).print(' help     ', { fg: 'cyan' });
   b.print('Fictional service', { fg: 'green', underline: true });
@@ -177,17 +186,17 @@ function homePage(state: DemoState): Page {
 
 // Content pages
 
-function componentsPage(state: DemoState): Page {
-  const b = contentPage('COMPONENTS', state);
+function componentsPage(): Page {
+  const b = contentPage();
   const items: [string, string, ColorName][] = [
     ['Screen', 'ready', 'green'],
     ['FunctionKeys', 'ready', 'green'],
+    ['Title', 'ready', 'green'],
+    ['StatusRow', 'ready', 'green'],
+    ['Menu', 'ready', 'green'],
+    ['InputField', 'ready', 'green'],
+    ['Frame', 'ready', 'green'],
     ['Mosaic', 'step 7', 'yellow'],
-    ['InputField', 'step 6', 'yellow'],
-    ['Menu', 'step 6', 'yellow'],
-    ['StatusRow', 'step 6', 'yellow'],
-    ['Title', 'step 6', 'yellow'],
-    ['Frame', 'step 6', 'yellow'],
   ];
   items.forEach(([name, status, color], i) => {
     b.moveTo(6 + i * 2, 3)
@@ -198,8 +207,8 @@ function componentsPage(state: DemoState): Page {
   return b.build();
 }
 
-function mosaicsPage(state: DemoState): Page {
-  const b = contentPage('MOSAICS', state);
+function mosaicsPage(): Page {
+  const b = contentPage();
   b.moveTo(5, 2).print('64 characters of 2 x 3 sixels:');
   for (let row = 0; row < 4; row++) {
     b.moveTo(7 + row * 2, 4);
@@ -212,8 +221,8 @@ function mosaicsPage(state: DemoState): Page {
   return b.build();
 }
 
-function palettePage(state: DemoState): Page {
-  const b = contentPage('8-COLOR PALETTE', state);
+function palettePage(): Page {
+  const b = contentPage();
   COLOR_NAMES.forEach((name, i) => {
     const row = 5 + i * 2;
     b.moveTo(row, 3).mosaic(Array(4).fill(SIXEL_FULL), { fg: name });
@@ -231,8 +240,8 @@ const SHORT_KEY_NAMES: Readonly<Record<string, string>> = {
   Backspace: 'Bksp',
 };
 
-function keysPage(state: DemoState): Page {
-  const b = contentPage('FUNCTION KEYS', state);
+function keysPage(): Page {
+  const b = contentPage();
   b.moveTo(5, 2).print('Key', { fg: 'cyan' });
   b.moveTo(5, 14).print('On a Minitel', { fg: 'cyan' });
   b.moveTo(5, 29).print('Keyboard', { fg: 'cyan' });
@@ -246,21 +255,22 @@ function keysPage(state: DemoState): Page {
   return b.build();
 }
 
-function guidePage(state: DemoState): Page {
-  const b = contentPage('GUIDE', state);
-  b.moveTo(5, 2).print(
+/** The text sits inside a Frame (rows 5 to 18, columns 1 to 38). */
+function guidePage(): Page {
+  const b = contentPage();
+  b.moveTo(7, 3).print(
     [
-      'This is a fictional Videotex service.',
+      'A fictional Videotex service.',
       '',
-      'Main menu: type 1 to 4, then Send.',
+      'Main menu: type 1 to 4 then Send,',
+      'or pick an entry.',
       'Next and Back turn the pages.',
-      'Index goes back to the main menu.',
+      'Index: back to the main menu.',
       'Repeat draws the page again.',
-      'Correction erases the last digit,',
-      'Cancel clears the whole entry.',
-      '',
-      'Press Back to leave this page.',
+      'Correction erases a digit,',
+      'Cancel clears the entry.',
     ].join('\n'),
   );
+  b.moveTo(20, 3).print('Press Back to leave this page.', { fg: 'yellow' });
   return b.build();
 }
