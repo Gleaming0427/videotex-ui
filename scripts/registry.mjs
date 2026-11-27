@@ -68,7 +68,7 @@ function item(name, title, description, entries) {
     title,
     description,
     files: [...entries, ...others, STYLESHEET].map(registryFile),
-    docs: 'Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it.',
+    docs: 'Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too.',
   };
 }
 

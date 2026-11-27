@@ -90,7 +90,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "function-keys",
@@ -169,7 +169,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "title",
@@ -258,7 +258,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "status-row",
@@ -347,7 +347,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "frame",
@@ -436,7 +436,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "input-field",
@@ -525,7 +525,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "menu",
@@ -614,7 +614,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "mosaic",
@@ -708,7 +708,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     },
     {
       "name": "videotex-ui",
@@ -837,7 +837,7 @@
           "target": "@components/videotex/videotex.css"
         }
       ],
-      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. The VT323 font from Google Fonts is used when the page loads it."
+      "docs": "Import components/videotex/videotex.css once, in your root layout or entry file. For the VT323 font, install @fontsource/vt323 and import it there too."
     }
   ]
 }

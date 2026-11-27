@@ -14,3 +14,4 @@ First version.
 - Support for React Server Components: the components are client components, and the core can run on the server.
 - shadcn registry: one item per component, and `videotex-ui` for all of them.
 - Technical values checked against the Minitel 1B specifications (STUM), with their sources in `docs/SPECS.md`.
+- Legal checks in `docs/LEGAL.md`: trademark notice in the README, and the VT323 font served by the site rather than by Google.
