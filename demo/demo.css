@@ -67,3 +67,40 @@ body {
 }
 
 .demo-status { color: var(--demo-muted); }
+
+.demo-terminal {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Beside the keys the screen needs about 1,100 px to reach a scale of 2; below that, stack them. */
+@media (max-width: 1100px) {
+  .demo-terminal { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .demo-terminal .vtx-screen { width: 100%; }
+}
+
+.demo-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--demo-muted);
+  font-size: 14px;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 1px 6px;
+  border: 1px solid var(--demo-line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: #1b1d21;
+  color: var(--demo-text);
+  font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace;
+  text-align: center;
+}

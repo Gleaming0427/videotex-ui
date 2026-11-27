@@ -56,11 +56,45 @@ Attributes: `fg` and `bg` (0 to 7 or `'black'`, `'red'`, `'green'`, `'yellow'`, 
 | `palette` | `'color'` | `'color'` or `'monochrome'` (8 grey levels) |
 | `crt` | `false` | Scanlines, vignette, glow, dark border |
 | `baud` | `false` | Progressive display at this speed (1200 on a Minitel) |
+| `revealKey` | | When set, only a new key starts a progressive display; other page changes (a typed character, a message) show at once |
 | `scale` | `'auto'` | Size of one screen dot in CSS pixels; `'auto'` picks the largest whole number that fits, so pixels stay sharp |
 | `blink` | `true` | Enables blinking |
 | `onRevealEnd` | | Called when the progressive display ends |
 
 Screen readers read the text of the page; the grid itself is hidden from them. `prefers-reduced-motion` turns off blinking, flicker and progressive display.
+
+### `FunctionKeys`
+
+The 8 Minitel function keys, as real buttons.
+
+```tsx
+<FunctionKeys
+  shortcuts
+  onSend={() => submit()}
+  onNext={() => setPage((p) => p + 1)}
+  onBack={() => setPage((p) => p - 1)}
+  onIndex={() => setPage(0)}
+/>
+```
+
+| Prop | Default | What it does |
+| --- | --- | --- |
+| `onKey(name)` | | Called for every key, before the key's own handler |
+| `onIndex`, `onGuide`, `onCancel`, `onCorrection`, `onBack`, `onNext`, `onRepeat`, `onSend` | | One handler per key |
+| `layout` | `'faithful'` | `'faithful'`: two columns of four, like the Minitel; `'compact'`: one wrapping row |
+| `labels` | `'en'` | `'en'`, `'fr'` (the labels printed on the Minitel: Sommaire, Envoi…) or your own labels |
+| `shortcuts` | `false` | `true` for the default shortcuts, or an object to change some of them (`null` removes one) |
+
+Default shortcuts:
+
+| Key | Shortcut | | Key | Shortcut |
+| --- | --- | --- | --- | --- |
+| Index | Home | | Guide | ? |
+| Cancel | Escape | | Correction | Backspace |
+| Back | Page Up | | Next | Page Down |
+| Repeat | End | | Send | Enter |
+
+Shortcuts are off by default because they listen on the whole window and take over keys such as Enter or Page Down. When on, they ignore text fields, key repeats and combinations with Ctrl, Alt or Meta, and leave Enter and Space to a focused button or link.
 
 ## Roadmap
 
