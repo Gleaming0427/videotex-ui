@@ -78,7 +78,7 @@ export function InputField({
   const revealing = screen?.revealing ?? false;
 
   useEffect(() => {
-    if (autoFocus && !revealing) ref.current?.focus();
+    if (autoFocus && !revealing) ref.current?.focus({ preventScroll: true });
   }, [autoFocus, revealing]);
 
   const change = (next: string) => {

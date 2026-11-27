@@ -153,7 +153,7 @@ export function Screen({
   );
 
   const vars = { '--vtx-px': `${dot}px`, '--vtx-border': border } as CSSProperties;
-  const context = useMemo(() => ({ revealing: schedule !== null }), [schedule]);
+  const context = useMemo(() => ({ revealing: schedule !== null, palette }), [schedule, palette]);
 
   return (
     <figure

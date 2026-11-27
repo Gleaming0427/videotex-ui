@@ -1,6 +1,7 @@
 // Cell rendering shared by Screen and by the components placed on it.
 import { createContext, memo, useContext, type CSSProperties, type ReactElement } from 'react';
 import { displayedColors, type Cell } from '../core/cell';
+import type { PaletteName } from '../core/palette';
 import { cx } from './cx';
 import { mosaicStyle } from './mosaicStyle';
 
@@ -72,6 +73,8 @@ export function CellGrid({
 export interface ScreenContextValue {
   /** True while the page is drawn progressively; components on the screen are hidden until it ends. */
   readonly revealing: boolean;
+  /** Palette of the screen. */
+  readonly palette: PaletteName;
 }
 
 export const ScreenContext = createContext<ScreenContextValue | null>(null);
