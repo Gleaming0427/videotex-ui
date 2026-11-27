@@ -60,8 +60,12 @@ function exportTargets(value) {
 
 const work = mkdtempSync(join(tmpdir(), 'videotex-ui-package-'));
 try {
-  // 1. Pack and unpack.
-  execFileSync('npm', ['pack', '--loglevel=warn', '--pack-destination', work], { cwd: root, stdio: ['ignore', 'ignore', 'inherit'] });
+  // 1. Pack and unpack. --dry-run=false: run from npm publish --dry-run, this script inherits
+  // npm_config_dry_run, which would stop npm pack from writing the tarball.
+  execFileSync('npm', ['pack', '--dry-run=false', '--loglevel=warn', '--pack-destination', work], {
+    cwd: root,
+    stdio: ['ignore', 'ignore', 'inherit'],
+  });
   const tarball = readdirSync(work).find((name) => name.endsWith('.tgz'));
   if (!tarball) throw new Error('npm pack wrote no tarball');
   const project = join(work, 'project');
