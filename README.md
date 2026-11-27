@@ -2,6 +2,10 @@
 
 A React UI kit inspired by French Videotex: 40 × 25 grid, mosaic graphics, 8 colors, function keys.
 
+![A small web page switches to Videotex mode: the same React components are drawn on a 40 × 25 screen at 1,200 baud](docs/media/demo.gif)
+
+The demo has a fictional Videotex service, the switch between web and Videotex modes, and a converter that turns a picture into mosaic characters (`npm run dev`).
+
 > Version 0.1.0 is ready but not published yet: the install commands below work once it is on npm.
 
 ## Install
@@ -201,6 +205,7 @@ npm test                 # tests
 npm run build            # library in dist/
 npm run registry         # rewrites registry.json after a source file is added or moved
 npm run registry:build   # shadcn registry in r/
+npm run record           # GIF and screenshots in docs/media/ (needs Google Chrome and ffmpeg)
 ```
 
 `npm pack` and `npm publish` build the library and the registry first. Changes go in [CHANGELOG.md](CHANGELOG.md).

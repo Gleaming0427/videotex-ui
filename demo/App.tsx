@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import {
   DEFAULT_SHORTCUTS,
   Frame,
@@ -15,7 +15,9 @@ import {
   type PaletteName,
 } from '../src';
 import { MosaicConverter, type Picture } from './MosaicConverter';
-import { buildPage, INITIAL_STATE, MENU_ITEMS, reduce, statusRight, TITLES } from './pages';
+import { buildPage, INITIAL_STATE, MENU_ITEMS, reduce, statusRight, TITLES, type DemoAction } from './pages';
+import { playKey } from './sound';
+import { TwoModes } from './TwoModes';
 
 const KEY_NAMES: Readonly<Record<string, string>> = {
   PageUp: 'Page Up',
@@ -28,7 +30,17 @@ function isEditable(target: EventTarget | null): boolean {
 }
 
 export function App() {
-  const [state, dispatch] = useReducer(reduce, INITIAL_STATE);
+  const [state, update] = useReducer(reduce, INITIAL_STATE);
+  const [sound, setSound] = useState(false);
+  const soundRef = useRef(sound);
+  useEffect(() => {
+    soundRef.current = sound;
+  });
+  // Every key and every typed digit beeps when the sound is on.
+  const dispatch = useCallback((action: DemoAction) => {
+    if (soundRef.current && (action.type === 'key' || action.type === 'input' || action.type === 'open')) playKey();
+    update(action);
+  }, []);
   const page = useMemo(() => buildPage(state.page), [state.page]);
   const [palette, setPalette] = useState<PaletteName>('color');
   const [crt, setCrt] = useState(true);
@@ -47,7 +59,7 @@ export function App() {
     };
     window.addEventListener('keydown', listener);
     return () => window.removeEventListener('keydown', listener);
-  }, []);
+  }, [dispatch]);
 
   return (
     <main className="demo">
@@ -133,10 +145,15 @@ export function App() {
         <label>
           <input type="checkbox" checked={slow} onChange={(e) => setSlow(e.target.checked)} /> Display at 1,200 baud
         </label>
+        <label>
+          <input type="checkbox" checked={sound} onChange={(e) => setSound(e.target.checked)} /> Sound
+        </label>
         <span className="demo-status" role="status">
           {slow && displayed === revealKey ? 'Page displayed.' : ''}
         </span>
       </div>
+
+      <TwoModes palette={palette} crt={crt} baud={slow ? MINITEL_BAUD : false} sound={sound} />
 
       <MosaicConverter
         shownUrl={shown?.url ?? null}
@@ -146,47 +163,6 @@ export function App() {
           document.querySelector('.demo-terminal')?.scrollIntoView();
         }}
       />
-
-      <OutsideTheScreen />
     </main>
-  );
-}
-
-/** The same components in an ordinary web page. */
-function OutsideTheScreen() {
-  const [name, setName] = useState('');
-  const [message, setMessage] = useState('');
-  const items = ['Weather', 'Trains', 'Directory'];
-  const greet = () => setMessage(name ? `Hello ${name}` : 'Type a name');
-
-  return (
-    <section className="demo-modern" aria-labelledby="modern-heading">
-      <h2 id="modern-heading">Outside the screen</h2>
-      <p className="demo-note">The same components in an ordinary page: they follow the layout and keep native behavior.</p>
-      <div className="demo-modern-grid">
-        <StatusRow left="VIDEOTEX-UI" message={message} right="0.00 F/min" />
-        <Title level={3}>Welcome</Title>
-        <Frame title="Services" fg="green">
-          <Menu items={items} aria-label="Services" onSelect={(i) => setMessage(`${items[i] ?? ''} selected`)} />
-        </Frame>
-        <Frame title="Sign in" fg="magenta">
-          <form
-            className="demo-form"
-            onSubmit={(event) => {
-              event.preventDefault();
-              greet();
-            }}
-          >
-            <label className="demo-label">
-              Name
-              <InputField label="Name" size={12} value={name} onChange={setName} onSubmit={greet} />
-            </label>
-            <button type="submit" className="demo-submit">
-              Send
-            </button>
-          </form>
-        </Frame>
-      </div>
-    </section>
   );
 }

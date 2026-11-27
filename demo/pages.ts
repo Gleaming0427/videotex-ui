@@ -141,8 +141,8 @@ function contentPage(): PageBuilder {
 
 const WIDTH = 80; // 40 cells × 2 sixels
 
-/** Sky rows 6 to 10 with a setting sun, sea rows 11 to 13 with its reflection. */
-function drawSunset(b: PageBuilder): void {
+/** Sky on 5 rows from `top` with a setting sun, then sea on 3 rows with its reflection. */
+function drawSunset(b: PageBuilder, top = 6): void {
   const sky: ColorName[] = ['blue', 'magenta', 'magenta', 'red', 'red'];
   const horizon = sky.length * 3; // sixel row where the sea starts
   const sun = (x: number, y: number) => {
@@ -154,7 +154,7 @@ function drawSunset(b: PageBuilder): void {
   };
   const skyBitmap = Array.from({ length: horizon }, (_, y) => Array.from({ length: WIDTH }, (_, x) => sun(x, y)));
   bitmapToMasks(skyBitmap).forEach((masks, i) => {
-    b.moveTo(6 + i, 0).mosaic(masks, { fg: 'yellow', bg: sky[i] });
+    b.moveTo(top + i, 0).mosaic(masks, { fg: 'yellow', bg: sky[i] });
   });
 
   const reflection = (x: number, y: number) => {
@@ -164,7 +164,7 @@ function drawSunset(b: PageBuilder): void {
   };
   const seaBitmap = Array.from({ length: 9 }, (_, y) => Array.from({ length: WIDTH }, (_, x) => reflection(x, y)));
   bitmapToMasks(seaBitmap).forEach((masks, i) => {
-    b.moveTo(11 + i, 0).mosaic(masks, { fg: 'cyan', bg: 'blue' });
+    b.moveTo(top + 5 + i, 0).mosaic(masks, { fg: 'cyan', bg: 'blue' });
   });
 }
 
@@ -281,5 +281,23 @@ function guidePage(): Page {
     ].join('\n'),
   );
   b.moveTo(20, 3).print('Press Back to leave this page.', { fg: 'yellow' });
+  return b.build();
+}
+
+// The two-mode section (TwoModes)
+
+/**
+ * Background of the small service in Videotex mode. Title, frames, menu and input field are the same
+ * components as in web mode, placed on the screen: title at rows 2 and 3, frames at rows 6 to 13.
+ */
+export function servicePage(): Page {
+  const b = new PageBuilder();
+  b.fill(1, 0, 4, 40, { bg: 'blue' });
+  b.moveTo(4, 2).print('Same components, on a screen', { bg: 'blue' });
+  b.moveTo(2, 32).print('40x25', { fg: 'cyan', bg: 'blue' });
+  b.moveTo(8, 23).print('Your name:', { fg: 'cyan' });
+  b.moveTo(12, 23).print('then ').print(' Send ', { inverse: true, fg: 'green' });
+  drawSunset(b, 15);
+  b.moveTo(24, 2).print('Fictional service', { fg: 'green', underline: true });
   return b.build();
 }

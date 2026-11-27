@@ -121,8 +121,9 @@
   50.01%, 100% { opacity: 0; }
 }
 
-/* Progressive display: each cell shows up after its own animation-delay (set by Screen). */
-.vtx-revealing .vtx-cell { animation: vtx-reveal 1ms linear both; }
+/* Progressive display: each cell of the page shows up after its own animation-delay (set by Screen).
+   Only the page grid: components on the layer stay hidden until the display ends. */
+.vtx-revealing .vtx-grid > .vtx-cell { animation: vtx-reveal 1ms linear both; }
 
 @keyframes vtx-reveal {
   from { visibility: hidden; }
