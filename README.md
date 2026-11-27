@@ -56,7 +56,7 @@ export function Home() {
 }
 ```
 
-The VT323 font is not bundled: load it from Google Fonts, or change `--vtx-font` (then adjust `--vtx-font-scale` and `--vtx-font-stretch`).
+The VT323 font (SIL Open Font License) is not bundled. Serve it with your site, for example with [`@fontsource/vt323`](https://www.npmjs.com/package/@fontsource/vt323) and `import '@fontsource/vt323'`. Loading it from Google's servers sends your visitors' IP addresses to Google, which a German court has found to breach the GDPR. You can also change `--vtx-font`, then adjust `--vtx-font-scale` and `--vtx-font-stretch`.
 
 ### `PageBuilder`
 
@@ -208,6 +208,10 @@ npm run registry:build   # shadcn registry in r/
 ## Roadmap
 
 The steps are described in [ROADMAP.md](ROADMAP.md) and tracked in the repository issues. The technical values in use, and what is still to be verified, are listed in [docs/SPECS.md](docs/SPECS.md).
+
+## Trademarks
+
+Minitel is a registered trademark of Orange. videotex-ui is an independent project inspired by the Minitel: it is not affiliated with Orange, nor sponsored or endorsed by it. See [docs/LEGAL.md](docs/LEGAL.md).
 
 ## License
 
