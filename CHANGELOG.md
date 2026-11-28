@@ -2,7 +2,13 @@
 
 Notable changes for each version. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow [Semantic Versioning](https://semver.org/). Until 1.0, a minor version may change the API.
 
-## 0.1.0 (not published yet)
+## Unreleased
+
+### Changed
+
+- README: the note saying the package was not published yet is gone, and a new example shows a 404 page.
+
+## 0.1.0 (2026-11-27)
 
 First version.
 

@@ -25,8 +25,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - id: pages
+        uses: actions/configure-pages@v6
       - run: npm run build:demo
-      - uses: actions/configure-pages@v6
+        env:
+          # The 404 page needs the address of the site (see vite.config.ts).
+          DEMO_BASE_PATH: ${{ steps.pages.outputs.base_path }}
       - uses: actions/upload-pages-artifact@v5
         with:
           path: demo-dist

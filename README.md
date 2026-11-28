@@ -4,9 +4,7 @@ A React UI kit inspired by French Videotex: 40 × 25 grid, mosaic graphics, 8 co
 
 ![A small web page switches to Videotex mode: the same React components are drawn on a 40 × 25 screen at 1,200 baud](docs/media/demo.gif)
 
-**[Try the demo](https://gleaming0427.github.io/videotex-ui/)**: a fictional Videotex service, the switch between web and Videotex modes, and a converter that turns a picture into mosaic characters.
-
-> Version 0.1.0 is ready but not published yet: the install commands below work once it is on npm.
+**[Try the demo](https://gleaming0427.github.io/videotex-ui/)**: a fictional Videotex service, the switch between web and Videotex modes, and a converter that turns a picture into mosaic characters. Any address that does not exist, such as [/nowhere](https://gleaming0427.github.io/videotex-ui/nowhere), shows its [404 page](#example-a-404-page).
 
 ## Install
 
@@ -197,6 +195,29 @@ Default shortcuts:
 | Repeat | End | | Send | Enter |
 
 Shortcuts are off by default because they listen on the whole window and take over keys such as Enter or Page Down. When on, they ignore text fields, key repeats and combinations with Ctrl, Alt or Meta, and leave Enter and Space to a focused button or link.
+
+### Example: a 404 page
+
+The [demo's 404 page](https://gleaming0427.github.io/videotex-ui/nowhere) is a background drawn with `PageBuilder`, a `Title` for the heading and `FunctionKeys` to leave. Its big "404" is a bitmap at sixel resolution, cut into mosaic characters by `bitmapToMasks`. Source: [demo/NotFound.tsx](demo/NotFound.tsx).
+
+```tsx
+const page = new PageBuilder()
+  .fill(1, 0, 3, 40, { bg: 'blue' })
+  .moveTo(14, 2).print('This page is not on the service.')
+  .moveTo(23, 2).print(' Index ', { inverse: true }).print(' main menu', { fg: 'cyan' })
+  .build();
+
+export function NotFound() {
+  return (
+    <>
+      <Screen page={page} crt baud={1200} aria-label="Page not found">
+        <Title level={1} row={3} col={2} bg="blue">PAGE NOT FOUND</Title>
+      </Screen>
+      <FunctionKeys shortcuts onIndex={() => location.assign('/')} onBack={() => history.back()} />
+    </>
+  );
+}
+```
 
 ## Development
 
